@@ -1,0 +1,46 @@
+# 📖 Glosario del analista de datos
+
+Términos clave que aparecen en el curso, en orden alfabético.
+
+- **A/B test** — Experimento controlado que compara dos versiones para medir el efecto de un cambio.
+- **Agregación** — Resumir muchas filas en un valor (suma, media, conteo).
+- **Analytics Engineer** — Perfil que modela y transforma datos con SQL/dbt entre el data engineer y el analista.
+- **Causalidad** — Relación en la que una variable *provoca* un cambio en otra (más fuerte que correlación).
+- **CTE (Common Table Expression)** — Consulta temporal con nombre (`WITH`) que hace el SQL legible y modular.
+- **Correlación** — Grado de relación lineal entre dos variables numéricas (−1 a +1). No implica causalidad.
+- **Dashboard** — Panel visual e interactivo con métricas clave para explorar datos.
+- **Data lake** — Almacén de datos crudos de cualquier tipo, barato y flexible.
+- **Data warehouse** — Base de datos optimizada para análisis (BigQuery, Snowflake).
+- **dbt** — Herramienta para transformar datos en el warehouse con SQL + prácticas de ingeniería.
+- **Dimensión** — Atributo por el que se corta una métrica (región, mes, canal).
+- **DuckDB** — Base de datos analítica local; "el SQLite del análisis".
+- **EDA** — Análisis exploratorio de datos: entender un dataset antes de concluir.
+- **ELT / ETL** — Extraer-Cargar-Transformar vs Extraer-Transformar-Cargar. El stack moderno usa ELT.
+- **Esquema estrella** — Modelo con una tabla de hechos central y tablas de dimensiones alrededor.
+- **Feature / Variable** — Una columna/atributo de los datos.
+- **Hecho (fact)** — Tabla con eventos medibles y sus métricas.
+- **Inferencia estadística** — Generalizar de una muestra a la población.
+- **IQR** — Rango intercuartílico (Q3−Q1); base para detectar outliers.
+- **KPI** — Métrica clave atada a un objetivo de negocio.
+- **LLM** — Modelo de lenguaje grande (Claude, GPT). Base de la IA generativa.
+- **Media / Mediana / Moda** — Medidas de tendencia central.
+- **Merge / JOIN** — Combinar tablas por una clave común.
+- **Métrica** — Un valor numérico medible.
+- **Outlier** — Valor atípico, muy alejado del resto. Puede ser error o dato clave.
+- **p-valor** — Probabilidad de ver un resultado (o más extremo) si la hipótesis nula fuera cierta.
+- **pandas** — Librería estándar de Python para manipular tablas de datos.
+- **Parquet** — Formato de archivo columnar, comprimido y tipado. Estándar analítico.
+- **Pipeline** — Secuencia automatizada de pasos de datos (carga → transforma → guarda).
+- **Polars** — Librería moderna (Rust) para datos, más rápida que pandas a gran escala.
+- **RAG** — Generación aumentada por recuperación: dar documentos propios a un LLM como contexto.
+- **Reproducibilidad** — Que un análisis dé el mismo resultado al re-ejecutarlo en otra máquina.
+- **Series de tiempo** — Datos indexados por tiempo; permiten tendencias, medias móviles, estacionalidad.
+- **Sesgo (bias)** — Distorsión sistemática en datos, muestreo o modelos.
+- **Significancia estadística** — Que un resultado es poco probable por azar (típicamente p < 0.05).
+- **SQL** — Lenguaje para consultar bases de datos relacionales.
+- **Storytelling** — Comunicar datos como una narrativa que impulsa una decisión.
+- **Streamlit** — Framework de Python para crear apps de datos web sin front-end.
+- **Tidy data** — Formato ordenado: una variable por columna, una observación por fila.
+- **uv** — Gestor moderno de Python y dependencias (Astral).
+- **Vectorización** — Operar sobre columnas enteras a la vez (rápido) en vez de bucles.
+- **Window function** — Función SQL que calcula sobre un conjunto de filas relacionadas sin colapsarlas.
