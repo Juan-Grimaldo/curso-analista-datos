@@ -2,6 +2,10 @@
 
 > **Objetivo:** dominar la manipulación de datos en Python. pandas es el estándar; Polars
 > es la alternativa moderna para grandes volúmenes. Aprenderás ambos y cuándo usar cada uno.
+>
+> 🧭 **Formato:** cada bloque de teoría va seguido de un **▶️ Practica ahora** con el dataset
+> [`ventas_ejemplo.csv`](../datasets/ventas_ejemplo.csv) (cópialo a tu `data/raw/` como viste
+> en el Módulo 02). Ejecuta cada práctica en tu notebook antes de seguir. Al final, un **Reto**.
 
 ---
 
@@ -27,6 +31,10 @@ cuadrados = [x**2 for x in range(5)]   # [0, 1, 4, 9, 16]
 
 El resto lo aprenderás con la práctica de pandas.
 
+> ### ▶️ Practica ahora
+> En una celda, crea la función `iva(precio, tasa=0.18)` y calcula el precio con IVA de
+> `[100, 250, 99.9]` usando una comprensión de listas. Debe devolver 3 valores.
+
 ---
 
 ## 3.2 pandas: la Series y el DataFrame
@@ -34,28 +42,24 @@ El resto lo aprenderás con la práctica de pandas.
 - **Series:** una columna (array 1D con índice).
 - **DataFrame:** una tabla (varias Series con índice común).
 
-```python
-import pandas as pd
-
-df = pd.DataFrame({
-    "producto": ["A", "B", "C", "A"],
-    "region":   ["Norte", "Sur", "Norte", "Sur"],
-    "ventas":   [120, 95, 140, 80],
-    "fecha":    pd.to_datetime(["2026-01-05", "2026-01-06", "2026-02-01", "2026-02-03"]),
-})
-```
-
 ### Cargar datos reales
 
 ```python
-df = pd.read_csv("data/raw/ventas.csv")
-df = pd.read_excel("data/raw/ventas.xlsx", sheet_name="2026")
-df = pd.read_parquet("data/raw/ventas.parquet")   # formato columnar, rápido
-df = pd.read_json("data/raw/api.json")
+import pandas as pd
+
+df = pd.read_csv("data/raw/ventas_ejemplo.csv", parse_dates=["fecha"])
+# otras fuentes:
+# pd.read_excel("archivo.xlsx", sheet_name="2026")
+# pd.read_parquet("archivo.parquet")   # columnar, rápido
+# pd.read_json("api.json")
 ```
 
 > 💡 **Parquet** es el formato preferido en el mundo moderno: comprimido, tipado y mucho
 > más rápido que CSV. Úsalo para datos intermedios.
+
+> ### ▶️ Practica ahora
+> Carga `ventas_ejemplo.csv` con `parse_dates=["fecha"]`. Comprueba que `df` tiene 735 filas
+> y que la columna `fecha` es de tipo `datetime` (revisa con `df.dtypes`).
 
 ---
 
@@ -68,11 +72,14 @@ df.shape           # (filas, columnas)
 df.info()          # tipos y nulos
 df.describe()      # estadísticas de columnas numéricas
 df.dtypes          # tipos de cada columna
-df.columns         # nombres de columnas
 df.isna().sum()    # nulos por columna
 df.nunique()       # valores únicos por columna
 df["region"].value_counts()   # frecuencia de categorías
 ```
+
+> ### ▶️ Practica ahora
+> Ejecuta `info()`, `describe()`, `isna().sum()` y `df["region"].value_counts()`.
+> Responde: ¿cuántos nulos tiene `ventas`? ¿cuántas regiones distintas hay?
 
 ---
 
@@ -85,9 +92,8 @@ df[["producto", "ventas"]]      # varias (DataFrame)
 
 # Filas por condición (booleana)
 df[df["ventas"] > 100]
-df[(df["ventas"] > 100) & (df["region"] == "Norte")]   # AND: &  |  OR: |
+df[(df["ventas"] > 100) & (df["region"] == "Norte")]   # AND: &   OR: |
 df[df["producto"].isin(["A", "B"])]
-df[df["producto"].str.startswith("A")]
 
 # .loc (por etiqueta) y .iloc (por posición) — la forma recomendada
 df.loc[df["ventas"] > 100, ["producto", "ventas"]]
@@ -97,6 +103,10 @@ df.iloc[0:3, 0:2]               # primeras 3 filas, 2 columnas
 > ⚠️ Evita el *chained indexing* (`df[...][...]`). Usa `.loc` para evitar el
 > `SettingWithCopyWarning`.
 
+> ### ▶️ Practica ahora
+> Filtra las ventas de la región `Norte` con monto mayor a 120, mostrando solo las columnas
+> `fecha`, `producto` y `ventas`. ¿Cuántas filas salen?
+
 ---
 
 ## 3.5 Limpiar datos (el 70% del trabajo real)
@@ -105,11 +115,8 @@ df.iloc[0:3, 0:2]               # primeras 3 filas, 2 columnas
 
 ```python
 df.isna().sum()                       # cuántos nulos
-df.dropna()                           # elimina filas con nulos
-df.dropna(subset=["ventas"])          # solo si falta 'ventas'
-df["ventas"].fillna(0)                # rellena con 0
-df["ventas"].fillna(df["ventas"].median())   # con la mediana
-df["region"] = df["region"].fillna("Desconocido")
+df.dropna(subset=["ventas"])          # elimina filas sin 'ventas'
+df["ventas"] = df["ventas"].fillna(df["ventas"].median())   # rellena con la mediana
 ```
 
 ### Duplicados
@@ -117,34 +124,31 @@ df["region"] = df["region"].fillna("Desconocido")
 ```python
 df.duplicated().sum()
 df = df.drop_duplicates()
-df = df.drop_duplicates(subset=["producto", "fecha"], keep="last")
 ```
 
 ### Tipos y texto
 
 ```python
-df["ventas"] = df["ventas"].astype(float)
-df["categoria"] = df["categoria"].astype("category")   # ahorra memoria
-df["producto"] = df["producto"].str.strip().str.upper()
+df["region"] = df["region"].str.strip().str.upper()
 df["fecha"] = pd.to_datetime(df["fecha"])
+df["categoria"] = df["region"].astype("category")   # ahorra memoria
 ```
 
-### Renombrar y crear columnas
+### Crear columnas
 
 ```python
-df = df.rename(columns={"ventas": "ventas_usd"})
-df["ventas_con_iva"] = df["ventas_usd"] * 1.18
-df["mes"] = df["fecha"].dt.month
-df["dia_semana"] = df["fecha"].dt.day_name()
-
-# Categorizar con condiciones
 import numpy as np
-df["nivel"] = np.where(df["ventas_usd"] > 100, "Alto", "Bajo")
-
-# Múltiples condiciones
-df["tramo"] = pd.cut(df["ventas_usd"], bins=[0, 90, 120, 999],
+df["ventas_con_iva"] = df["ventas"] * 1.18
+df["mes"] = df["fecha"].dt.month
+df["nivel"] = np.where(df["ventas"] > 100, "Alto", "Bajo")
+df["tramo"] = pd.cut(df["ventas"], bins=[0, 90, 120, 9999],
                      labels=["Bajo", "Medio", "Alto"])
 ```
+
+> ### ▶️ Practica ahora
+> Limpia el dataset paso a paso: (1) cuenta duplicados y elimínalos, (2) rellena los nulos
+> de `ventas` con la mediana, (3) normaliza `region` a mayúsculas, (4) crea la columna `mes`.
+> Al terminar, `df.isna().sum()` debe dar 0 en `ventas` y `df.duplicated().sum()` debe dar 0.
 
 ---
 
@@ -161,13 +165,15 @@ df.groupby("region").agg(
     n_ventas=("ventas", "count"),
 )
 
-# Agrupar por varias dimensiones
-df.groupby(["region", "producto"])["ventas"].sum().reset_index()
-
 # Tabla dinámica (pivot)
 df.pivot_table(index="region", columns="producto",
                values="ventas", aggfunc="sum", fill_value=0)
 ```
+
+> ### ▶️ Practica ahora
+> 1. Calcula las ventas **totales por región**, ordenadas de mayor a menor.
+> 2. Crea una `pivot_table` de ventas por `region` (filas) y `producto` (columnas).
+> 3. Responde: ¿qué región vende más? ¿qué producto domina en cada región?
 
 ---
 
@@ -182,31 +188,29 @@ ventas.merge(productos, on="producto_id", how="left")
 pd.concat([df_enero, df_febrero], ignore_index=True)
 ```
 
-### Los tipos de JOIN, visualmente
+```
+INNER  → solo coincidencias en ambas       LEFT → todas las de la izquierda + coincidencias
+RIGHT  → todas las de la derecha + coinc.   OUTER → todas de ambas
+```
 
-```
-INNER  → solo coincidencias en ambas
-LEFT   → todas las de la izquierda + coincidencias
-RIGHT  → todas las de la derecha + coincidencias
-OUTER  → todas de ambas
-```
+> ### ▶️ Practica ahora
+> Crea una pequeña tabla de referencia con el nombre completo de cada producto
+> (`pd.DataFrame({"producto": ["A","B","C","D"], "nombre": [...]})`) y haz un `merge`
+> `how="left"` con tu `df`. Verifica que la nueva columna `nombre` se llenó en todas las filas.
 
 ---
 
 ## 3.8 Datos de tiempo
 
 ```python
-df = df.set_index("fecha").sort_index()
-
-# Remuestreo: ventas mensuales
-df["ventas"].resample("MS").sum()      # MS = inicio de mes
-
-# Media móvil de 7 días
-df["ventas"].rolling(7).mean()
-
-# Cambio respecto al periodo anterior
-df["ventas"].pct_change()
+serie = df.set_index("fecha").sort_index()["ventas"]
+serie.resample("MS").sum()      # ventas mensuales (MS = inicio de mes)
+serie.rolling(7).mean()         # media móvil de 7 días
+serie.pct_change()              # cambio respecto al periodo anterior
 ```
+
+> ### ▶️ Practica ahora
+> Calcula las ventas **totales por mes** con `resample("MS")`. ¿En qué mes se vendió más?
 
 ---
 
@@ -221,9 +225,13 @@ df_long = df.melt(id_vars="producto", value_vars=["ene", "feb", "mar"],
 df_wide = df_long.pivot(index="producto", columns="mes", values="ventas")
 ```
 
+> ### ▶️ Practica ahora
+> Toma tu `pivot_table` de la sección 3.6 (ancha) y vuélvela a formato **largo** con
+> `.melt()` o `.stack()`. Confirma que recuperas una tabla `region | producto | ventas`.
+
 ---
 
-## 3.10 El método `.pipe()` y encadenar (código limpio)
+## 3.10 El método chaining (código limpio, nivel pro)
 
 En vez de reasignar `df` diez veces, encadena transformaciones:
 
@@ -240,17 +248,21 @@ resultado = (
 
 Este estilo (*method chaining*) es más legible y es la forma profesional de escribir pandas.
 
+> ### ▶️ Practica ahora
+> Reescribe tu análisis de "ventas totales por región" (sección 3.6) como **una sola
+> cadena** encadenada con `.groupby().sort_values()`. Compara: ¿se lee mejor?
+
 ---
 
 ## 3.11 Polars: el pandas moderno para escala
 
-**[Polars](https://pola.rs/)** es una librería escrita en Rust, **mucho más rápida** que
-pandas y con mejor manejo de memoria. Ideal cuando pandas se queda corto (millones de filas).
+**[Polars](https://pola.rs/)** está escrito en Rust, es **mucho más rápido** que pandas y
+maneja mejor la memoria. Ideal cuando pandas se queda corto (millones de filas).
 
 ```python
 import polars as pl
 
-df = pl.read_csv("data/raw/ventas.csv")
+df = pl.read_csv("data/raw/ventas_ejemplo.csv")
 
 resultado = (
     df
@@ -264,7 +276,7 @@ resultado = (
 )
 ```
 
-### pandas vs Polars — ¿cuándo cada uno?
+### ¿cuándo cada uno?
 
 | Situación | Elige |
 |-----------|-------|
@@ -272,22 +284,14 @@ resultado = (
 | Millones de filas, rendimiento, pipelines | **Polars** |
 | Datos más grandes que la RAM | **Polars (lazy)** o DuckDB |
 
-### Modo *lazy* (evaluación diferida) — el superpoder de Polars
+**Modo lazy** (evaluación diferida): `pl.scan_csv(...)` planifica y solo lee lo necesario;
+ejecutas con `.collect()`. Muy eficiente.
 
-```python
-resultado = (
-    pl.scan_csv("data/raw/ventas.csv")   # no lee aún
-    .filter(pl.col("ventas") > 50)
-    .group_by("region")
-    .agg(pl.col("ventas").sum())
-    .collect()                            # ahora sí ejecuta, optimizado
-)
-```
+> 💡 Convierte entre ambos: `df.to_pandas()` / `pl.from_pandas(df)`. No eliges uno para siempre.
 
-Polars planifica toda la consulta y solo lee lo necesario. Muy eficiente.
-
-> 💡 Puedes convertir entre ambos: `df.to_pandas()` / `pl.from_pandas(df)`. No tienes que
-> elegir uno para siempre.
+> ### ▶️ Practica ahora
+> Repite el "total de ventas por región" **en Polars** y compáralo con tu versión de pandas.
+> ¿En qué se parece la sintaxis? ¿En qué cambia?
 
 ---
 
@@ -301,22 +305,11 @@ Polars planifica toda la consulta y solo lee lo necesario. Muy eficiente.
 
 ---
 
-## Ejercicios
+## Reto del módulo (cierre)
 
-Usa el dataset [`datasets/ventas_ejemplo.csv`](../datasets/ventas_ejemplo.csv) (o descarga uno público de tu interés).
-
-1. Carga el CSV, muestra `info()`, `describe()` y los nulos por columna.
-2. Limpia: elimina duplicados, rellena nulos numéricos con la mediana y normaliza el texto.
-3. Crea una columna `mes` a partir de la fecha y una columna `nivel` (Alto/Bajo por ventas).
-4. Calcula ventas totales por región y por mes (usando `groupby` y `pivot_table`).
-5. Reescribe el ejercicio 4 con **method chaining** (`.pipe`/encadenado).
-6. Repite el ejercicio 4 en **Polars** y compara el código.
-
-## Reto del módulo
-
-Toma un dataset real de [Kaggle](https://www.kaggle.com/datasets) o
-[datos.gob](https://datos.gob.es/) sobre un tema que te interese. Haz una **limpieza
-completa** documentada en un notebook: carga → inspección → limpieza → 3 preguntas
-respondidas con `groupby`. Guarda el resultado limpio en `data/processed/` como Parquet.
+Con lo que practicaste, haz una **limpieza completa documentada** en un notebook sobre
+`ventas_ejemplo.csv` (o un dataset real que te guste): carga → inspección → limpieza →
+responde 3 preguntas con `groupby`. Guarda el resultado limpio en `data/processed/` como
+**Parquet** (`df.to_parquet(...)`). Haz commit y push a tu repo `curso-datos`.
 
 ➡️ Siguiente: [Módulo 04 — SQL moderno](../04-sql-moderno/README.md)

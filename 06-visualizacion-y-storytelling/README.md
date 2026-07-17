@@ -3,6 +3,9 @@
 > **Objetivo:** convertir análisis en **comunicación que mueve decisiones**. Aprenderás a
 > elegir el gráfico correcto, a hacerlos con Python (matplotlib/seaborn/plotly), y los
 > principios de dashboards (Power BI/Tableau) y narrativa de datos.
+>
+> 🧭 **Formato:** cada bloque va seguido de un **▶️ Practica ahora** con tu dataset. Al final,
+> un **Reto** de cierre.
 
 ---
 
@@ -12,6 +15,10 @@
 > esfuerzo cognitivo** del lector.
 
 Antes de graficar, responde: **¿cuál es el UN mensaje que quiero transmitir?**
+
+> ### ▶️ Practica ahora
+> Toma un hallazgo de tu EDA (Módulo 05) y escríbelo como **una frase** (el mensaje).
+> Ejemplo: "El canal Móvil vende menos pero con menos descuento". Ese será el mensaje a graficar.
 
 ---
 
@@ -23,177 +30,162 @@ Antes de graficar, responde: **¿cuál es el UN mensaje que quiero transmitir?**
 | Evolución en el tiempo | Líneas | Barras para series largas |
 | Relación entre 2 variables | Dispersión (scatter) | — |
 | Distribución de una variable | Histograma / boxplot | — |
-| Parte de un todo (pocas partes) | Barras apiladas / donut simple | Pastel con >5 trozos |
-| Composición en el tiempo | Área apilada | — |
+| Parte de un todo (pocas partes) | Barras / donut simple | Pastel con >5 trozos |
 | Datos geográficos | Mapa (choropleth) | — |
 | Correlaciones múltiples | Heatmap | — |
 
-> ⚠️ **Los gráficos de pastel** casi siempre son peores que unas barras. El ojo humano
-> compara longitudes mucho mejor que ángulos.
+> ⚠️ **Los gráficos de pastel** casi siempre son peores que unas barras. El ojo compara
+> longitudes mucho mejor que ángulos.
+
+> ### ▶️ Practica ahora
+> Para el mensaje que escribiste en 6.1, decide **qué gráfico** es el correcto y por qué.
+> Justifícalo en una frase antes de programar nada.
 
 ---
 
 ## 6.3 Visualización con Python
 
 ### matplotlib — la base
-
 ```python
 import matplotlib.pyplot as plt
+ventas_region = df.groupby("region")["ventas"].sum().sort_values()
 
 fig, ax = plt.subplots(figsize=(8, 5))
 ax.bar(ventas_region.index, ventas_region.values, color="#2563eb")
-ax.set_title("Ventas por región — 2026")
+ax.set_title("El Norte lidera las ventas del semestre")   # título = conclusión
 ax.set_ylabel("Ventas (USD)")
-ax.spines[["top", "right"]].set_visible(False)   # limpia el marco
+ax.spines[["top", "right"]].set_visible(False)
 plt.tight_layout()
 plt.savefig("reports/ventas_region.png", dpi=150)
 ```
 
 ### seaborn — estadístico y elegante
-
 ```python
 import seaborn as sns
 sns.set_theme(style="whitegrid")
-
 sns.barplot(data=df, x="region", y="ventas", estimator="sum")
 sns.lineplot(data=df, x="fecha", y="ventas", hue="region")
 sns.boxplot(data=df, x="region", y="ventas")
-sns.scatterplot(data=df, x="trafico", y="ventas", hue="region", size="descuento")
-sns.histplot(data=df, x="ventas", bins=30, kde=True)
+sns.scatterplot(data=df, x="trafico", y="ventas", hue="region")
 ```
 
 ### plotly — interactivo (para apps y dashboards)
-
 ```python
 import plotly.express as px
-
-fig = px.line(df, x="fecha", y="ventas", color="region",
-              title="Ventas mensuales por región")
-fig.show()
+fig = px.line(df, x="fecha", y="ventas", color="region", title="Ventas por región")
 fig.write_html("reports/ventas.html")   # interactivo, compartible
 ```
 
-Con plotly el usuario puede hacer zoom, hover y filtrar. Ideal para Streamlit (Módulo 09).
+> ### ▶️ Practica ahora
+> Crea el gráfico que elegiste en 6.2 con seaborn. Guárdalo en `reports/`. Ponle un
+> **título que sea la conclusión**, no una etiqueta genérica.
 
 ---
 
-## 6.4 Principios de diseño (pre-attentive attributes)
+## 6.4 Principios de diseño
 
-Nuestro cerebro procesa ciertas señales **antes** de pensar. Úsalas a tu favor:
+Nuestro cerebro procesa ciertas señales **antes** de pensar (*pre-attentive*): color,
+posición, tamaño. Úsalas a tu favor.
 
-- **Color:** resérvalo para destacar lo importante. Todo en color = nada destaca.
-- **Posición:** lo más alto/izquierda se lee primero.
-- **Tamaño:** lo grande se percibe como importante.
-
-### Reglas de oro (data-ink ratio, de Tufte)
-
+**Reglas de oro (data-ink ratio, de Tufte):**
 1. **Elimina lo que no informa:** rejillas pesadas, bordes, fondos, 3D, sombras.
 2. **Ordena** las barras por valor (salvo orden natural como meses).
 3. **Etiqueta directamente** en vez de obligar a mirar una leyenda lejana.
 4. **Empieza los ejes de barras en 0** (si no, exageras diferencias — engañoso).
 5. **Un color de acento** + grises para el contexto.
-6. **Título que dice la conclusión:** "Las ventas del Norte cayeron 15%", no "Ventas por región".
+6. **Título que dice la conclusión.**
+
+> ### ▶️ Practica ahora
+> Revisa tu gráfico de 6.3 con esta checklist. Aplica al menos 3 mejoras (quita chartjunk,
+> ordena, usa un solo acento). Compara el antes y el después.
 
 ---
 
 ## 6.5 Accesibilidad del color
 
 - ~8% de los hombres tiene daltonismo. Evita depender solo de rojo/verde.
-- Usa paletas seguras (`viridis`, `cividis`) o combina color + forma/etiqueta.
+- Usa paletas seguras (`viridis`, `cividis`, `colorblind`) o combina color + forma/etiqueta.
 - Asegura contraste suficiente entre texto y fondo.
 
 ```python
 sns.set_palette("colorblind")
 ```
 
+> ### ▶️ Practica ahora
+> Aplica `sns.set_palette("colorblind")` a un gráfico con varias series. Verifica que las
+> categorías siguen distinguiéndose bien.
+
 ---
 
 ## 6.6 Dashboards y BI (Power BI / Tableau)
 
-Cuando el público necesita **explorar** los datos por sí mismo (no solo leer un informe),
-usas un **dashboard**.
+Cuando el público necesita **explorar** los datos por sí mismo, usas un **dashboard**.
 
-### Herramientas
+**Herramientas:** Power BI (estándar corporativo, lenguaje **DAX**), Tableau, Looker Studio
+(gratis), o **Streamlit** con Python (Módulo 09).
 
-- **Power BI** — estándar corporativo (Microsoft), fuerte con Excel/Azure. Lenguaje **DAX**.
-- **Tableau** — muy potente en visualización, popular en análisis.
-- **Looker Studio** — gratuito, integra con Google.
-- **Streamlit** — cuando quieres hacerlo con Python (Módulo 09).
-
-### Anatomía de un buen dashboard
-
+**Anatomía de un buen dashboard:**
 ```
 ┌─────────────────────────────────────────┐
 │  TÍTULO + filtros (fecha, región)        │  ← contexto arriba
 ├───────────┬───────────┬─────────────────┤
-│  KPI 1    │  KPI 2    │  KPI 3          │  ← números clave (big numbers)
+│  KPI 1    │  KPI 2    │  KPI 3          │  ← números clave
 ├───────────┴───────────┴─────────────────┤
-│  Tendencia principal (línea)             │  ← el gráfico "héroe"
+│  Tendencia principal (línea)             │  ← gráfico "héroe"
 ├──────────────────┬───────────────────────┤
-│  Desglose 1      │  Desglose 2           │  ← detalle secundario
+│  Desglose 1      │  Desglose 2           │  ← detalle
 └──────────────────┴───────────────────────┘
 ```
 
-Principios: **lo más importante arriba-izquierda**, máximo 5–7 elementos, filtros claros,
-y cada gráfico responde una pregunta concreta.
+Principios: **lo más importante arriba-izquierda**, máximo 5–7 elementos, filtros claros.
+En Power BI conocerás el **modelo de datos** (esquema estrella), las **medidas (DAX)** y la
+diferencia entre columnas calculadas y medidas.
 
-### Conceptos de Power BI que debes conocer
-
-- **Modelo de datos:** relaciones entre tablas (esquema estrella, Módulo 04).
-- **Medidas (DAX):** cálculos como `Ventas Totales = SUM(Ventas[Monto])`.
-- **Columnas calculadas** vs **medidas** (las medidas se calculan según el contexto del filtro).
+> ### ▶️ Practica ahora
+> Diseña (en papel o en una herramienta) el *layout* de un dashboard de 4 elementos para tu
+> dataset: 2 KPIs + 1 gráfico héroe + 1 desglose. Indica qué pregunta responde cada uno.
 
 ---
 
 ## 6.7 Storytelling con datos
 
-Un análisis sin narrativa se ignora. Estructura tu comunicación como una historia:
+Un análisis sin narrativa se ignora. Estructura como una historia:
 
-### El arco narrativo
+**Arco narrativo:** Contexto → Conflicto/hallazgo → Resolución.
 
-1. **Contexto:** ¿de qué hablamos y por qué importa ahora?
-2. **Conflicto/hallazgo:** ¿qué descubriste? (el "¡ajá!")
-3. **Resolución:** ¿qué recomiendas hacer?
-
-### El framework SCR (Situación – Complicación – Resolución)
-
+**Framework SCR:**
 - **Situación:** "Las ventas crecían 5% mensual."
 - **Complicación:** "En junio cayeron 15%, concentrado en el canal móvil."
-- **Resolución:** "Recomiendo auditar el checkout móvil; impacto estimado: recuperar ~200k."
+- **Resolución:** "Recomiendo auditar el checkout móvil; impacto: recuperar ~200k."
 
-### Consejos
+**Consejos:** empieza por la conclusión (estilo ejecutivo), un mensaje por gráfico, anticipa
+el *"¿y qué?"* (cada dato → una acción), y conoce a tu audiencia.
 
-- **Empieza por la conclusión** (estilo ejecutivo), luego el detalle.
-- **Un mensaje por diapositiva/gráfico.**
-- Anticipa el *"¿y qué?"*: cada dato debe conectar con una **acción o decisión**.
-- Conoce a tu audiencia: un CEO quiere el "qué hacer"; un analista quiere el "cómo lo sabes".
+> ### ▶️ Practica ahora
+> Escribe el mensaje de tu análisis con el framework **SCR** en 3 frases (Situación,
+> Complicación, Resolución). Debe terminar en una **recomendación accionable**.
 
 ---
 
 ## 6.8 Errores que gritan "novato"
 
 - Gráficos de pastel con 8 categorías.
-- Ejes que no empiezan en 0 en gráficos de barras.
+- Ejes que no empiezan en 0 en barras.
 - Demasiados colores sin significado.
-- Títulos genéricos ("Gráfico 1") en vez de la conclusión.
-- Tablas gigantes cuando un gráfico bastaría (o al revés).
-- No indicar unidades, fechas ni fuente de los datos.
+- Títulos genéricos ("Gráfico 1").
+- Tablas gigantes cuando un gráfico bastaría.
+- No indicar unidades, fechas ni fuente.
+
+> ### ▶️ Practica ahora
+> Revisa todos los gráficos que hiciste en este módulo contra esta lista. ¿Cometiste alguno?
+> Corrígelo.
 
 ---
 
-## Ejercicios
-
-1. Toma un hallazgo de tu EDA (Módulo 05) y elige el **gráfico correcto** para comunicarlo.
-   Justifica por qué ese y no otro.
-2. Créalo en seaborn aplicando las reglas de oro (título-conclusión, sin *chartjunk*, un acento).
-3. Haz una versión **interactiva** con plotly y expórtala a HTML.
-4. Diseña (en papel o herramienta) el *layout* de un dashboard de 4 elementos para tu tema.
-5. Escribe el mensaje de tu análisis con el framework **SCR** en 3 frases.
-
-## Reto del módulo
+## Reto del módulo (cierre)
 
 Crea un mini-informe visual (1 página o 3 slides) que cuente una historia con datos:
-contexto → hallazgo → recomendación, con 2–3 gráficos bien diseñados. El título de cada
-gráfico debe ser su conclusión. Este material va directo a tu portafolio.
+**contexto → hallazgo → recomendación**, con 2–3 gráficos bien diseñados (título = conclusión,
+sin chartjunk, paleta accesible). Este material va directo a tu portafolio. Commit y push.
 
 ➡️ Siguiente: [Módulo 07 — Modern data stack](../07-stack-datos-moderno/README.md)

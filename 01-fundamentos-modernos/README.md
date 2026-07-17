@@ -2,6 +2,9 @@
 
 > **Objetivo:** entender el rol del analista hoy, el ciclo de vida del dato y los tipos
 > de análisis, con el vocabulario y las herramientas actuales.
+>
+> 🧭 **Formato:** cada concepto viene seguido de un bloque **▶️ Practica ahora**. Hazlo en
+> el momento (son de papel/reflexión, no de código todavía). Al final hay un **Reto** de cierre.
 
 ---
 
@@ -28,6 +31,11 @@ El analista de datos convierte **datos en decisiones**. Lo que ha cambiado es el
 > 💡 La frontera más "caliente" hoy es el **Analytics Engineer**: un analista que también
 > sabe modelar datos con SQL + dbt. Este curso te lleva en esa dirección.
 
+> ### ▶️ Practica ahora
+> Mira una oferta de empleo real de "Analista de datos" (LinkedIn/InfoJobs). Anota:
+> ¿pide Python? ¿SQL? ¿Power BI/Tableau? ¿nube? Compara con la columna "Ahora" de la tabla.
+> Eso te dice qué de este curso te acerca más a ese puesto.
+
 ---
 
 ## 1.2 El ciclo de vida del dato
@@ -46,6 +54,10 @@ Captura → Ingesta → Almacenamiento → Transformación → Análisis → Vis
 - **Visualización/Comunicación:** dashboards, informes, storytelling.
 - **Gobernanza:** calidad, seguridad, privacidad, documentación — **transversal**.
 
+> ### ▶️ Practica ahora
+> Piensa en una compra que hiciste online. Recorre el ciclo: ¿dónde se **capturó** ese dato?
+> ¿dónde se **almacenaría**? ¿qué **análisis** haría la empresa con él? Escríbelo en 4–5 líneas.
+
 ---
 
 ## 1.3 ELT vs ETL — el cambio clave
@@ -57,6 +69,10 @@ El *modern data stack* invirtió el orden clásico:
   **transformas dentro** con SQL. Flexible y escalable.
 
 Este cambio es la razón de ser de herramientas como **dbt** (Módulo 07).
+
+> ### ▶️ Practica ahora
+> Explica con tus propias palabras (2 frases) por qué cargar primero los datos crudos y
+> transformar después (ELT) da más flexibilidad que transformar antes (ETL).
 
 ---
 
@@ -70,6 +86,10 @@ Este cambio es la razón de ser de herramientas como **dbt** (Módulo 07).
 | **Prescriptivo** | ¿Qué hacer? | "Reactivar el canal X con campaña Y." |
 
 El analista vive sobre todo en **descriptivo y diagnóstico**, y colabora en predictivo.
+
+> ### ▶️ Practica ahora
+> Para un negocio que conozcas, escribe **una pregunta de cada tipo** (descriptiva,
+> diagnóstica, predictiva, prescriptiva). Fíjate cómo cada una es más "difícil" que la anterior.
 
 ---
 
@@ -102,6 +122,10 @@ Un dataset está **tidy** cuando:
 
 El formato *tidy* hace que agrupar, filtrar y graficar sea trivial. Lo usaremos siempre.
 
+> ### ▶️ Practica ahora
+> Convierte esta tabla ancha a formato **tidy** (en papel o texto):
+> `| tienda | q1_2025 | q2_2025 | q3_2025 |`. ¿Cuántas columnas tiene tu versión tidy?
+
 ---
 
 ## 1.6 Métricas, KPIs y dimensiones
@@ -112,6 +136,10 @@ El formato *tidy* hace que agrupar, filtrar y graficar sea trivial. Lo usaremos 
 
 > Una buena métrica es **específica, comparable y accionable**. Cuidado con las
 > *vanity metrics* (métricas de vanidad) que se ven bien pero no guían decisiones.
+
+> ### ▶️ Practica ahora
+> Lista **3 KPIs** de un e-commerce y, para cada uno, **2 dimensiones** con las que lo
+> cortarías. Ejemplo: KPI = "ingresos"; dimensiones = "por región", "por mes".
 
 ---
 
@@ -131,22 +159,17 @@ Y por la **gobernanza / ética**:
 - **Sesgo:** los datos reflejan sesgos del mundo real; cuestiónalos.
 - **Trazabilidad:** documenta de dónde viene cada número (*data lineage*).
 
+> ### ▶️ Practica ahora
+> Identifica un caso donde un dato "correcto" podría llevar a una conclusión **sesgada**.
+> Pista: piensa en encuestas respondidas solo por clientes satisfechos.
+
 ---
 
-## Ejercicios
-
-1. Para tu trabajo o un negocio que conozcas, escribe **una pregunta de negocio** de cada
-   tipo (descriptiva, diagnóstica, predictiva, prescriptiva).
-2. Toma esta tabla ancha y descríbela en formato **tidy** (en papel o texto):
-   `| tienda | q1_2025 | q2_2025 | q3_2025 |`
-3. Lista **3 KPIs** de un e-commerce y, para cada uno, **2 dimensiones** con las que lo cortarías.
-4. Identifica un caso donde un dato "correcto" podría llevar a una conclusión **sesgada**.
-
-## Reto del módulo
+## Reto del módulo (cierre)
 
 Elige un dominio que te interese (deportes, salud, retail, música...). Escribe una página
-que incluya: la pregunta de negocio principal, los datos que necesitarías, dónde vivirían
-(fuente/almacenamiento), y qué decisión buscarías impulsar. Guárdalo: será candidato a tu
-**proyecto final**.
+que integre lo practicado: la **pregunta de negocio** principal, los **datos** que
+necesitarías, dónde vivirían (fuente/almacenamiento), los **KPIs** y dimensiones, y qué
+**decisión** buscarías impulsar. Guárdalo: será candidato a tu **proyecto final**.
 
 ➡️ Siguiente: [Módulo 02 — Entorno y Git](../02-entorno-y-git/README.md)

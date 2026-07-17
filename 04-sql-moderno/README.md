@@ -3,6 +3,10 @@
 > **Objetivo:** escribir SQL analítico profesional: desde consultas sólidas hasta CTEs,
 > *window functions* y buenas prácticas de modelado. Practicaremos con **DuckDB**, que
 > corre en tu máquina sin instalar un servidor.
+>
+> 🧭 **Formato:** cada concepto va seguido de un **▶️ Practica ahora** sobre
+> [`ventas_ejemplo.csv`](../datasets/ventas_ejemplo.csv) usando DuckDB. Ejecútalo en el
+> momento. Al final, un **Reto** de cierre.
 
 ---
 
@@ -26,15 +30,12 @@ que corre en tu proceso y lee CSV/Parquet directamente.
 import duckdb
 
 # Consultar un CSV directamente, sin cargarlo
-duckdb.sql("SELECT * FROM 'data/raw/ventas.csv' LIMIT 5").show()
-
-# Consultar un DataFrame de pandas
-import pandas as pd
-df = pd.read_csv("data/raw/ventas.csv")
-duckdb.sql("SELECT region, SUM(ventas) FROM df GROUP BY region").df()
+duckdb.sql("SELECT * FROM 'data/raw/ventas_ejemplo.csv' LIMIT 5").show()
 ```
 
-Esto te deja practicar SQL **sobre tus propios archivos**. Lo usaremos en todo el módulo.
+> ### ▶️ Practica ahora
+> En un notebook, ejecuta ese `SELECT ... LIMIT 5` sobre `ventas_ejemplo.csv`. Confirma que
+> ves las 8 columnas. A partir de aquí, todas las prácticas serán consultas SQL sobre este archivo.
 
 ---
 
@@ -42,7 +43,7 @@ Esto te deja practicar SQL **sobre tus propios archivos**. Lo usaremos en todo e
 
 ```sql
 SELECT   region, SUM(ventas) AS ventas_total
-FROM     ventas
+FROM     'data/raw/ventas_ejemplo.csv'
 WHERE    fecha >= '2026-01-01'
 GROUP BY region
 HAVING   SUM(ventas) > 1000
@@ -59,6 +60,10 @@ FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT
 Entender esto explica muchos errores (ej. por qué no puedes usar un alias del `SELECT`
 en el `WHERE`).
 
+> ### ▶️ Practica ahora
+> Escribe una consulta que devuelva las ventas totales por `canal`, solo de la región
+> `Norte`, ordenadas de mayor a menor. (Filtra por región en `WHERE`, agrupa por canal.)
+
 ---
 
 ## 4.4 Filtrar bien
@@ -67,11 +72,15 @@ en el `WHERE`).
 WHERE precio BETWEEN 10 AND 50
 WHERE region IN ('Norte', 'Sur')
 WHERE producto LIKE 'A%'          -- empieza por A
-WHERE fecha IS NOT NULL
-WHERE (region = 'Norte' AND ventas > 100) OR prioridad = 'Alta'
+WHERE ventas IS NOT NULL
+WHERE (region = 'Norte' AND ventas > 100) OR canal = 'Web'
 ```
 
 `WHERE` filtra **filas** antes de agrupar; `HAVING` filtra **grupos** después.
+
+> ### ▶️ Practica ahora
+> Cuenta cuántas ventas hay en los canales `Web` y `Movil` (usa `IN`) con monto no nulo
+> y superior a 90.
 
 ---
 
@@ -80,16 +89,18 @@ WHERE (region = 'Norte' AND ventas > 100) OR prioridad = 'Alta'
 ```sql
 SELECT
     region,
-    COUNT(*)            AS n_ventas,
-    COUNT(DISTINCT cliente_id) AS clientes_unicos,
-    SUM(ventas)         AS total,
-    AVG(ventas)         AS promedio,
-    MIN(ventas)         AS minimo,
-    MAX(ventas)         AS maximo,
-    MEDIAN(ventas)      AS mediana      -- disponible en DuckDB
-FROM ventas
+    COUNT(*)                   AS n_ventas,
+    COUNT(DISTINCT producto)   AS productos_distintos,
+    SUM(ventas)                AS total,
+    AVG(ventas)                AS promedio,
+    MEDIAN(ventas)             AS mediana      -- disponible en DuckDB
+FROM 'data/raw/ventas_ejemplo.csv'
 GROUP BY region;
 ```
+
+> ### ▶️ Practica ahora
+> Para cada `producto`, calcula el número de ventas, el total y el promedio. ¿Qué producto
+> tiene el promedio de venta más alto?
 
 ---
 
@@ -111,6 +122,11 @@ LEFT JOIN productos p ON v.producto_id = p.id;
 > 💡 Usa **alias** cortos (`v`, `p`) y **cualifica** las columnas (`v.fecha`) cuando hay
 > JOINs. Evita `SELECT *` en producción.
 
+> ### ▶️ Practica ahora
+> Crea una tabla de referencia en SQL con los nombres de producto y haz un JOIN. Puedes
+> usar una CTE: `WITH ref(producto, nombre) AS (VALUES ('A','Alfa'),('B','Beta'),('C','Cesar'),('D','Delta'))`
+> y únela con el CSV por `producto`.
+
 ---
 
 ## 4.7 CTEs: consultas legibles (Common Table Expressions)
@@ -124,7 +140,7 @@ WITH ventas_mes AS (
         DATE_TRUNC('month', fecha) AS mes,
         region,
         SUM(ventas) AS total
-    FROM ventas
+    FROM 'data/raw/ventas_ejemplo.csv'
     GROUP BY 1, 2
 ),
 ranking AS (
@@ -136,62 +152,53 @@ ranking AS (
 SELECT * FROM ranking WHERE puesto <= 3;
 ```
 
-Lee de arriba a abajo como pasos: "primero agrego por mes, luego rankeo, luego filtro top 3".
-**Prefiere siempre CTEs a subconsultas anidadas.**
+Lee de arriba a abajo como pasos. **Prefiere siempre CTEs a subconsultas anidadas.**
+
+> ### ▶️ Practica ahora
+> Escribe una consulta con **dos CTEs**: la primera agrega ventas por `mes` y `region`; la
+> segunda selecciona solo el mes con más ventas totales. Lee tu consulta en voz alta como pasos.
 
 ---
 
 ## 4.8 Window functions (funciones de ventana) — nivel pro
 
 Calculan valores **entre filas relacionadas sin colapsar** el resultado (a diferencia de
-`GROUP BY`). Son lo que separa a un analista junior de uno senior.
+`GROUP BY`). Es lo que separa a un analista junior de uno senior.
 
 ```sql
 SELECT
-    fecha,
-    region,
-    ventas,
-
+    fecha, region, ventas,
     -- Total acumulado por región a lo largo del tiempo
     SUM(ventas) OVER (PARTITION BY region ORDER BY fecha) AS acumulado,
-
     -- Ranking de ventas dentro de cada región
     ROW_NUMBER() OVER (PARTITION BY region ORDER BY ventas DESC) AS puesto,
-
     -- Valor de la fila anterior (para calcular variación)
-    LAG(ventas) OVER (PARTITION BY region ORDER BY fecha) AS ventas_previas,
-
-    -- Media móvil de 3 periodos
-    AVG(ventas) OVER (PARTITION BY region ORDER BY fecha
-                      ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) AS media_movil
-FROM ventas;
+    LAG(ventas) OVER (PARTITION BY region ORDER BY fecha) AS ventas_previas
+FROM 'data/raw/ventas_ejemplo.csv';
 ```
 
-### Anatomía de una window function
+**Anatomía:** `FUNCION() OVER (PARTITION BY <grupo> ORDER BY <orden> <marco>)`.
+Funciones comunes: `ROW_NUMBER`, `RANK`, `DENSE_RANK`, `LAG`, `LEAD`, `SUM`, `AVG`, `NTILE`.
 
-```
-FUNCION() OVER (PARTITION BY <grupo> ORDER BY <orden> <marco>)
-              └ opcional      └ opcional            └ opcional (ROWS BETWEEN...)
-```
-
-**Funciones comunes:** `ROW_NUMBER`, `RANK`, `DENSE_RANK`, `LAG`, `LEAD`, `SUM`, `AVG`,
-`FIRST_VALUE`, `NTILE`.
-
-### Caso típico: variación respecto al mes anterior
+### Caso típico: variación mes a mes
 
 ```sql
 WITH mensual AS (
     SELECT DATE_TRUNC('month', fecha) AS mes, SUM(ventas) AS total
-    FROM ventas GROUP BY 1
+    FROM 'data/raw/ventas_ejemplo.csv' GROUP BY 1
 )
 SELECT
-    mes,
-    total,
+    mes, total,
     LAG(total) OVER (ORDER BY mes) AS mes_anterior,
     ROUND(100.0 * (total - LAG(total) OVER (ORDER BY mes))
           / LAG(total) OVER (ORDER BY mes), 1) AS variacion_pct
 FROM mensual;
 ```
+
+> ### ▶️ Practica ahora
+> 1. Saca el **Top 3 productos** por ventas totales usando `RANK()`.
+> 2. Calcula la **variación porcentual** de ventas mes a mes (adapta el ejemplo de arriba).
+> ¿Qué mes tuvo la mayor caída?
 
 ---
 
@@ -199,15 +206,18 @@ FROM mensual;
 
 ```sql
 SELECT
-    producto,
-    ventas,
+    producto, ventas,
     CASE
         WHEN ventas >= 120 THEN 'Alto'
         WHEN ventas >= 90  THEN 'Medio'
         ELSE 'Bajo'
     END AS segmento
-FROM ventas;
+FROM 'data/raw/ventas_ejemplo.csv';
 ```
+
+> ### ▶️ Practica ahora
+> Segmenta cada venta en Alto/Medio/Bajo con `CASE` y luego **cuenta cuántas hay de cada
+> segmento** (envuélvelo en una CTE y agrupa por el segmento).
 
 ---
 
@@ -229,34 +239,27 @@ dim_producto ─┼─ FACT_ventas ─┬─ dim_cliente
 Este modelo hace los dashboards rápidos e intuitivos. Es el estándar en Power BI/Tableau
 y lo construirás con dbt en el Módulo 07.
 
+> ### ▶️ Practica ahora
+> Mira `ventas_ejemplo.csv` e identifica: ¿cuál sería la **tabla de hechos**? ¿qué columnas
+> serían **dimensiones**? ¿cuáles son las **métricas**? Escríbelo en 3 líneas.
+
 ---
 
 ## 4.11 Buenas prácticas
 
-- Escribe las palabras clave en MAYÚSCULAS y usa sangría consistente.
+- Palabras clave en MAYÚSCULAS y sangría consistente.
 - Usa **CTEs** en vez de subconsultas anidadas.
 - Nombra columnas de forma clara (`ventas_total`, no `col1`).
-- Evita `SELECT *` en producción; pide solo lo que necesitas.
+- Evita `SELECT *` en producción.
 - Comenta el *por qué*, no el *qué*.
 - Filtra pronto (`WHERE`) para procesar menos datos.
 
 ---
 
-## Ejercicios
+## Reto del módulo (cierre)
 
-Usa DuckDB sobre [`datasets/ventas_ejemplo.csv`](../datasets/ventas_ejemplo.csv).
-
-1. Ventas totales y promedio por región, ordenadas de mayor a menor.
-2. Top 3 productos por ventas usando `RANK()` con una window function.
-3. Ventas mensuales con su **variación porcentual** respecto al mes anterior (`LAG`).
-4. Total acumulado de ventas por región a lo largo del tiempo.
-5. Segmenta cada venta en Alto/Medio/Bajo con `CASE` y cuenta cuántas hay de cada una.
-6. Escribe una consulta con **dos CTEs** encadenadas que responda una pregunta tuya.
-
-## Reto del módulo
-
-Toma tu dataset del reto anterior. Escribe una consulta SQL (con CTEs y al menos una
-window function) que produzca una tabla lista para un dashboard: una métrica clave cortada
-por 2 dimensiones y con su variación temporal. Documenta qué pregunta responde.
+Escribe **una** consulta (con al menos una CTE y una window function) que produzca una tabla
+lista para un dashboard: una métrica clave cortada por 2 dimensiones (ej. región y mes) con
+su **variación temporal**. Documenta qué pregunta de negocio responde. Guárdala en tu repo.
 
 ➡️ Siguiente: [Módulo 05 — Estadística y EDA](../05-estadistica-y-eda/README.md)

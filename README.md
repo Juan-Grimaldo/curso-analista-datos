@@ -74,8 +74,8 @@ Curso Analista de datos/
 Cada módulo contiene:
 - `README.md` — teoría y lecciones
 - Ejemplos de código comentados
-- **Ejercicios** al final (con pistas)
-- **Reto práctico** para consolidar
+- Bloques **▶️ Practica ahora** intercalados: explico un concepto y lo aplicas *en el momento*
+- **Reto** final para consolidar todo el módulo
 
 ---
 
@@ -83,9 +83,13 @@ Cada módulo contiene:
 
 1. Sigue los módulos **en orden** (cada uno asume el anterior).
 2. **Escribe el código tú**, no solo lo copies.
-3. Al final de cada módulo, haz los ejercicios **antes** de avanzar.
+3. Haz cada bloque **▶️ Practica ahora** en el momento, antes de seguir leyendo. No los dejes para el final.
 4. Usa la IA como **tutor**, no como muleta: pídele que te explique, no solo que resuelva.
 5. Guarda todo en un **repositorio de GitHub** desde el módulo 02.
+
+> 📌 **Dos carpetas distintas:** *"Curso Analista de datos"* es el **material** que lees (no es
+> un repo tuyo). Tu **trabajo** vivirá en un proyecto aparte llamado `curso-datos`, que sí será
+> tu repositorio de GitHub. El Módulo 02 lo explica en detalle — no los anides.
 
 ---
 

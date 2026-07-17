@@ -1,8 +1,10 @@
 # Módulo 08 — IA generativa aplicada al análisis de datos
 
 > **Objetivo:** usar LLMs (Claude, ChatGPT, Copilot…) como **acelerador profesional** del
-> análisis, con criterio: prompting efectivo, verificación, límites y ética. La IA no
-> reemplaza al analista; **potencia** al que sabe usarla.
+> análisis, con criterio: prompting efectivo, verificación, límites y ética.
+>
+> 🧭 **Formato:** cada bloque va seguido de un **▶️ Practica ahora** (usa tu asistente de IA
+> preferido). Al final, un **Reto** de cierre.
 
 ---
 
@@ -16,45 +18,54 @@ regla que no cambia:
 
 La IA es excelente **acelerando**, pésima **garantizando**. Tu valor está en el criterio.
 
+> ### ▶️ Practica ahora
+> Pídele a un LLM que calcule algo que ya sabes de tu dataset (ej. "¿cuántas regiones hay?").
+> Dale el contexto justo. Observa: ¿acertó? Esto te entrena a **verificar siempre**.
+
 ---
 
-## 8.2 Dónde la IA ayuda de verdad en el flujo del analista
+## 8.2 Dónde la IA ayuda de verdad
 
-| Tarea | Cómo ayuda la IA |
-|-------|------------------|
-| **Escribir código** | Genera pandas/SQL a partir de una descripción |
+| Tarea | Cómo ayuda |
+|-------|------------|
+| **Escribir código** | Genera pandas/SQL desde una descripción |
 | **Explicar código** | Te explica una consulta heredada o un error |
 | **Depurar** | Diagnostica un traceback o un resultado raro |
-| **Regex y transformaciones** | Genera expresiones regulares y limpiezas complejas |
-| **Generar ideas de EDA** | Sugiere preguntas y análisis para un dataset |
-| **Documentar** | Redacta README, docstrings, descripciones de columnas |
-| **Redactar hallazgos** | Convierte resultados en un resumen ejecutivo |
-| **Análisis de texto** | Clasifica, resume o extrae info de datos no estructurados |
+| **Regex y transformaciones** | Genera expresiones regulares complejas |
+| **Ideas de EDA** | Sugiere preguntas y análisis para un dataset |
+| **Documentar** | Redacta README, docstrings, descripciones |
+| **Redactar hallazgos** | Convierte resultados en resumen ejecutivo |
+| **Texto no estructurado** | Clasifica, resume o extrae info |
+
+> ### ▶️ Practica ahora
+> Toma un error (traceback) que hayas tenido en un módulo anterior (o provócalo). Pégaselo a
+> un LLM y pídele que lo **explique y lo arregle**. ¿Entendiste la causa?
 
 ---
 
-## 8.3 Prompting efectivo para análisis
+## 8.3 Prompting efectivo
 
 Un buen prompt tiene **contexto + tarea + formato + restricciones**.
 
-### ❌ Prompt pobre
-> "dame código de pandas para ventas"
+**❌ Pobre:** "dame código de pandas para ventas"
 
-### ✅ Prompt efectivo
-> "Tengo un DataFrame de pandas `df` con columnas: `fecha` (datetime), `region` (str),
-> `producto` (str), `ventas` (float). Quiero calcular la variación porcentual de ventas
-> mensuales por región respecto al mes anterior. Devuélveme el código con method chaining,
-> comentado, y explica la lógica en 2 frases."
+**✅ Efectivo:**
+> "Tengo un DataFrame `df` con columnas: `fecha` (datetime), `region` (str), `producto`
+> (str), `ventas` (float). Quiero la variación porcentual de ventas mensuales por región
+> respecto al mes anterior. Dame el código con method chaining, comentado, y explica la
+> lógica en 2 frases."
 
-### Técnicas clave
+**Técnicas clave:** da contexto real (esquema, `df.head().to_dict()`), sé específico con el
+formato ("en Polars", "como función"), pide que razone, itera con el error exacto, pide
+alternativas ("¿hay una forma más eficiente?").
 
-1. **Da contexto real:** esquema, tipos, una muestra de datos (`df.head().to_dict()`).
-2. **Sé específico con el formato:** "en Polars", "con seaborn", "como función".
-3. **Pide que razone:** "explica por qué" reduce errores.
-4. **Itera:** si algo no cuadra, corrige con el error exacto pegado.
-5. **Pide alternativas:** "¿hay una forma más eficiente/legible?".
+> ### ▶️ Practica ahora
+> Escribe **dos** prompts para la misma tarea de tu dataset: uno pobre y uno efectivo (con
+> contexto + tarea + formato). Compara las dos respuestas. ¿Cuánto mejora?
 
-### La IA como tutor (no como muleta)
+---
+
+## 8.4 La IA como tutor (no como muleta)
 
 En vez de "resuélveme esto", prueba:
 > "Explícame por qué mi `groupby` devuelve NaN aquí y qué concepto debo entender para
@@ -62,118 +73,108 @@ En vez de "resuélveme esto", prueba:
 
 Así aprendes en lugar de crear dependencia.
 
----
-
-## 8.4 Verificación: la habilidad más importante
-
-Nunca confíes a ciegas. Protocolo de verificación:
-
-- **Código:** ejecútalo y revisa el resultado en un caso que **conozcas la respuesta**.
-- **Números:** comprueba órdenes de magnitud, totales, que sumen 100%, bordes (nulos, ceros).
-- **SQL generado:** léelo. ¿El JOIN duplica filas? ¿El filtro está antes o después de agrupar?
-- **Afirmaciones:** pide las fuentes; los LLMs inventan citas y funciones que no existen.
-
-> 💡 Truco: pídele a la IA que **escriba un test** o que verifique su propio resultado con
-> un método distinto. "Comprueba este total de otra forma."
+> ### ▶️ Practica ahora
+> Elige un concepto del curso que no dominaste (window functions, p-valor, ELT…). Pídele al
+> LLM que te lo explique **con una analogía** y resúmelo luego **con tus palabras**.
 
 ---
 
-## 8.5 Analizar datos con LLMs vía código (API)
+## 8.5 Verificación: la habilidad más importante
 
-Los LLMs también sirven **dentro** de tu pipeline para datos no estructurados: clasificar
-tickets, extraer entidades, analizar sentimiento, resumir reseñas.
+Nunca confíes a ciegas. Protocolo:
+- **Código:** ejecútalo con un caso cuya respuesta **ya conoces**.
+- **Números:** revisa órdenes de magnitud, totales, que sumen 100%, bordes (nulos, ceros).
+- **SQL generado:** léelo. ¿El JOIN duplica filas? ¿el filtro va antes o después de agrupar?
+- **Afirmaciones:** pide fuentes; los LLMs inventan funciones y citas.
+
+> 💡 Truco: pide a la IA que **verifique su propio resultado por otro método**.
+
+> ### ▶️ Practica ahora
+> Pídele a la IA un total de tu dataset y luego pídele que lo **compruebe de otra forma**.
+> Después verifícalo tú mismo/a en pandas. ¿Coinciden los tres?
+
+---
+
+## 8.6 Analizar datos con LLMs vía código (API)
+
+Los LLMs sirven **dentro** de tu pipeline para datos no estructurados: clasificar tickets,
+extraer entidades, analizar sentimiento, resumir reseñas.
 
 ```python
-# Ejemplo conceptual: clasificar el sentimiento de reseñas
 import anthropic
-
-client = anthropic.Anthropic()   # requiere API key en variable de entorno
+client = anthropic.Anthropic()   # API key en variable de entorno
 
 def clasificar_sentimiento(texto):
     msg = client.messages.create(
         model="claude-sonnet-5",
         max_tokens=10,
-        messages=[{
-            "role": "user",
-            "content": f"Clasifica el sentimiento como POSITIVO, NEUTRO o NEGATIVO. "
-                       f"Responde solo con una palabra.\n\nReseña: {texto}"
-        }],
+        messages=[{"role": "user",
+                   "content": f"Clasifica el sentimiento como POSITIVO, NEUTRO o NEGATIVO. "
+                              f"Responde solo una palabra.\n\nReseña: {texto}"}],
     )
     return msg.content[0].text.strip()
 
 df["sentimiento"] = df["reseña"].apply(clasificar_sentimiento)
 ```
 
-> 💡 Para muchas filas: procesa por lotes, controla costos, cachea resultados y valida una
-> muestra a mano. Para tareas simples y masivas, a veces un modelo clásico es más barato.
+> 💡 Para muchas filas: procesa por lotes, controla costos, cachea y valida una muestra a mano.
+
+> ### ▶️ Practica ahora
+> (Conceptual) Diseña el prompt que usarías para **clasificar el sentimiento** de reseñas de
+> producto en 3 categorías. ¿Qué instrucción evita que el modelo se explaye de más?
 
 ---
 
-## 8.6 RAG en una frase (para que sepas qué es)
+## 8.7 RAG y Text-to-SQL (para que sepas qué son)
 
-**RAG** (Retrieval-Augmented Generation) = darle al LLM tus documentos como contexto para
-que responda basándose en ellos, no en su memoria. Es la base de los "chatea con tus datos".
-Como analista te lo cruzarás; no necesitas construirlo aún, pero entiende el concepto:
-*recuperar información relevante → pasársela al modelo → generar respuesta fundamentada*.
+- **RAG** (Retrieval-Augmented Generation): darle al LLM tus documentos como contexto para
+  que responda basándose en ellos. Base de los "chatea con tus datos".
+- **Text-to-SQL:** herramientas que generan SQL desde lenguaje natural. Útil, pero
+  **verifica el SQL** y funciona mejor sobre datos bien modelados y documentados (¡otra
+  razón para dbt!).
 
----
-
-## 8.7 "Text-to-SQL" y asistentes de BI
-
-Cada vez más herramientas dejan preguntar en lenguaje natural ("¿ventas por región el mes
-pasado?") y generan el SQL. Útil, pero:
-
-- **Verifica el SQL generado** — puede malinterpretar la pregunta.
-- Funciona mejor sobre datos **bien modelados y documentados** (¡otra razón para dbt!).
-- No sustituye entender el modelo de datos; lo acelera.
+> ### ▶️ Practica ahora
+> Pídele a un LLM que traduzca a SQL una pregunta en lenguaje natural sobre tu dataset (ej.
+> "ventas por región el último mes"). **Audita** el SQL: ¿es correcto? ¿duplica filas?
 
 ---
 
 ## 8.8 Riesgos, ética y privacidad
 
 Reglas que un profesional **no rompe**:
-
-- 🔒 **Nunca pegues datos sensibles/PII** en herramientas públicas de IA. Usa datos
-  anonimizados o instancias empresariales aprobadas.
+- 🔒 **Nunca pegues datos sensibles/PII** en herramientas públicas de IA.
 - 🔒 **No subas credenciales** ni datos de clientes a un chat.
-- 🧠 **Cuidado con las alucinaciones:** funciones inventadas, cifras falsas, fuentes ficticias.
-- ⚖️ **Sesgo:** los modelos heredan sesgos; en clasificaciones que afectan personas, audita.
-- 📉 **No delegues el juicio:** la IA no conoce el contexto de tu negocio ni las consecuencias.
-- 📝 **Transparencia:** indica cuándo un análisis o texto fue asistido por IA si tu organización lo requiere.
+- 🧠 **Cuidado con alucinaciones:** funciones inventadas, cifras falsas.
+- ⚖️ **Sesgo:** los modelos heredan sesgos; audita en decisiones que afectan personas.
+- 📉 **No delegues el juicio:** la IA no conoce tu negocio ni las consecuencias.
+- 📝 **Transparencia:** indica cuándo un análisis fue asistido por IA si tu organización lo requiere.
+
+> ### ▶️ Practica ahora
+> Escribe tu **política personal de uso de IA** en 5 reglas (qué SÍ harás, qué NUNCA harás).
+> Guárdala en tu repo.
 
 ---
 
 ## 8.9 Un flujo de trabajo realista con IA
 
 ```
-1. TÚ defines la pregunta de negocio y el enfoque.
-2. IA → borrador de código/SQL a partir de tu descripción con contexto.
+1. TÚ defines la pregunta y el enfoque.
+2. IA → borrador de código/SQL con tu contexto.
 3. TÚ ejecutas, VERIFICAS con un caso conocido y ajustas.
-4. IA → te ayuda a depurar errores y a optimizar.
-5. TÚ interpretas los resultados (esto no se delega).
+4. IA → te ayuda a depurar y optimizar.
+5. TÚ interpretas los resultados (no se delega).
 6. IA → te ayuda a redactar el resumen ejecutivo.
 7. TÚ revisas, corriges y firmas. Eres responsable.
 ```
 
-El patrón: **la IA acelera las partes mecánicas; tú aportas el criterio en las decisiones.**
+El patrón: **la IA acelera lo mecánico; tú aportas el criterio en las decisiones.**
 
 ---
 
-## Ejercicios
-
-1. Toma un problema real de un módulo anterior y escribe un **prompt efectivo** (contexto +
-   tarea + formato). Compara la respuesta con un prompt pobre.
-2. Pídele a un LLM que genere una consulta SQL con un JOIN; **audítala**: ¿duplica filas?
-   ¿el filtro está bien? Documenta qué encontraste.
-3. Usa la IA como **tutor**: haz que te explique un concepto que no dominaste (window
-   functions, p-valor…) y resume la explicación con tus palabras.
-4. Pídele que **verifique un total** de dos formas distintas sobre tu dataset.
-5. Escribe tu propia "política personal de uso de IA" en 5 reglas (qué sí, qué nunca).
-
-## Reto del módulo
+## Reto del módulo (cierre)
 
 Reescribe el resumen ejecutivo de tu informe de EDA (Módulo 05) con ayuda de IA: dale tus
-hallazgos verificados y pídele un texto claro para un directivo. Luego **corrígelo tú**
+hallazgos **verificados** y pídele un texto claro para un directivo. Luego **corrígelo tú**
 (la IA no conoce tu negocio). Documenta qué cambiaste y por qué: esa diferencia es tu valor.
 
 ➡️ Siguiente: [Módulo 09 — Automatización y apps](../09-automatizacion-y-apps/README.md)
