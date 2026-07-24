@@ -1,6 +1,8 @@
 """
 Construye la base de datos de práctica del Módulo 04:  data/tienda.duckdb
-Ejecútalo UNA vez con:  py crear_db.py
+
+Este script se ejecuta en tu repo de práctica `curso-datos`. Cópialo ahí, y desde
+la raíz del repo ejecútalo UNA vez con:  uv run crear_db.py
 
 Crea 3 tablas relacionadas (un mini "esquema estrella"):
   - ventas        → tabla de HECHOS (cada venta), leída del CSV del curso
@@ -9,13 +11,13 @@ Crea 3 tablas relacionadas (un mini "esquema estrella"):
 
 Con esto puedes practicar JOINs de verdad, uniendo tablas por su columna común.
 
-Requisito único:  py -m pip install duckdb
+Requisito (en curso-datos):  uv add duckdb   y copiar ventas_ejemplo.csv a data/raw/
 """
 
 import pathlib
 import duckdb
 
-CSV = "../datasets/ventas_ejemplo.csv"
+CSV = "data/raw/ventas_ejemplo.csv"   # el CSV que copiaste a tu repo curso-datos
 DB = "data/tienda.duckdb"
 
 pathlib.Path("data").mkdir(exist_ok=True)

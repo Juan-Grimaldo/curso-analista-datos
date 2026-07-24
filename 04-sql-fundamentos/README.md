@@ -15,12 +15,13 @@
 > cd curso-datos
 > uv add duckdb                       # añade DuckDB a tu entorno
 > mkdir -p notebooks/04-sql-fundamentos
+> # copia ventas_ejemplo.csv del material a  data/raw/  de tu repo
 > ```
 >
 > Crea ahí un notebook (`notebooks/04-sql-fundamentos/practica.ipynb`) o un script
-> (`src/sql_fundamentos.py`) y ve escribiendo cada **▶️ Practica ahora** tú mismo. Copia el
-> [`ventas_ejemplo.csv`](../datasets/ventas_ejemplo.csv) a la carpeta `data/` de tu repo para
-> tenerlo a mano.
+> (`src/sql_fundamentos.py`) y ve escribiendo cada **▶️ Practica ahora** tú mismo. Los scripts
+> de apoyo de este módulo (`crear_db.py`, `demo_guiado.py`, `actividad_01.py`) están pensados
+> para copiarlos a la raíz de tu repo y ejecutarlos con `uv run` (esperan el CSV en `data/raw/`).
 
 ---
 
@@ -220,29 +221,11 @@ SELECT COUNT(DISTINCT canal) FROM 'ventas_ejemplo.csv';    -- cuántos canales d
 
 Hasta aquí consultábamos **un solo CSV**. Pero en el mundo real los datos viven repartidos en
 **varias tablas** dentro de una base de datos, y `JOIN` es lo que las une. Para practicarlo con
-tablas de verdad, crea en tu repo `curso-datos` una pequeña base DuckDB con este script (guárdalo
-como `src/crear_tienda.py` y ejecútalo una vez con `uv run src/crear_tienda.py`):
+tablas de verdad necesitas una pequeña base DuckDB. Copia el script **`crear_db.py`** de este
+módulo a tu repo `curso-datos` y ejecútalo una vez desde la raíz del repo:
 
-```python
-import pathlib, duckdb
-
-CSV = "data/ventas_ejemplo.csv"          # el CSV que copiaste a tu repo
-DB  = "data/tienda.duckdb"
-pathlib.Path("data").mkdir(exist_ok=True)
-pathlib.Path(DB).unlink(missing_ok=True)  # empezar de cero cada vez
-
-con = duckdb.connect(DB)
-con.execute(f"CREATE TABLE ventas AS SELECT * FROM '{CSV}'")   # tabla de HECHOS
-con.execute("""CREATE TABLE dim_producto (producto VARCHAR, nombre VARCHAR, categoria VARCHAR)""")
-con.execute("""INSERT INTO dim_producto VALUES
-    ('A','Alfa','Bebidas'), ('B','Beta','Snacks'),
-    ('C','Cesar','Bebidas'), ('D','Delta','Snacks')""")
-con.execute("""CREATE TABLE dim_region (region VARCHAR, zona VARCHAR, responsable VARCHAR)""")
-con.execute("""INSERT INTO dim_region VALUES
-    ('Norte','Continental','Ana Ruiz'), ('Sur','Continental','Luis Paz'),
-    ('Este','Costa','Marta Sol'),       ('Oeste','Costa','Beto Lima')""")
-con.close()
-print("Base creada en", DB)
+```bash
+uv run crear_db.py        # genera data/tienda.duckdb con 3 tablas
 ```
 
 Genera `data/tienda.duckdb` con un mini **esquema estrella** (lo verás formalmente en el Módulo 05):

@@ -4,23 +4,25 @@ ACTIVIDAD 01 — Módulo 04 (SQL: fundamentos)
 Tú escribes el SQL. Son preguntas básicas: SELECT, WHERE, ORDER BY, COUNT/SUM/AVG,
 GROUP BY, HAVING y DISTINCT. Nada de CTEs ni window functions (eso es el Módulo 05).
 
-Antes de empezar (una vez):  py crear_db.py   → crea data/tienda.duckdb (para el ej. 8).
+Este archivo se trabaja en tu repo de práctica `curso-datos`. Cópialo ahí y ejecútalo
+desde la raíz del repo con:  uv run actividad_01.py
+Antes de empezar (una vez):  uv run crear_db.py   → crea data/tienda.duckdb (para el ej. 8).
 
 Cómo funciona:
   - Cada ejercicio te pide RELLENAR una cadena SQL entre las triples comillas.
   - NO cambies los nombres de las variables (SQL_1, SQL_2, ...).
   - Ejercicios 1-7: SQL sobre el CSV '{CSV}' (usa la constante CSV con f-string).
   - Ejercicio 8: SQL sobre las tablas de la base (ventas, dim_producto), sin comillas.
-  - Ejecuta:  py actividad_01.py
   - El corrector del final ejecuta tu SQL y te dice qué está bien y qué no.
 
+Requisito (en curso-datos):  uv add duckdb   y copiar ventas_ejemplo.csv a data/raw/
 Pistas: todo está en el README, secciones 4.3 a 4.11. No mires demo_guiado.py hasta
 haberlo intentado al menos dos veces.
 """
 
 import duckdb
 
-CSV = "../datasets/ventas_ejemplo.csv"
+CSV = "data/raw/ventas_ejemplo.csv"   # el CSV que copiaste a tu repo curso-datos
 
 
 # ── EJERCICIO 1: contar filas con WHERE ───────────────────────────
@@ -76,7 +78,7 @@ SQL_7 = f"""
 
 
 # ── EJERCICIO 8: JOIN sobre la base de datos ──────────────────────
-# Requisito: haber ejecutado antes  py crear_db.py  (crea data/tienda.duckdb).
+# Requisito: haber ejecutado antes  uv run crear_db.py  (crea data/tienda.duckdb).
 # Une 'ventas' con 'dim_producto' por la columna 'producto' y calcula el
 # total de ventas por CATEGORÍA, ordenado de mayor a menor.
 # Devuelve: categoria, total. (La categoría líder debe salir primera.)

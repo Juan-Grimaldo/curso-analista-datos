@@ -1,17 +1,19 @@
 """
-Demo guiado del Módulo 04 — SQL moderno con DuckDB, de principio a fin.
-Ejecútalo con:  py demo_guiado.py
+Demo guiado del Módulo 05 — SQL moderno con DuckDB, de principio a fin.
+
+Este script se ejecuta en tu repo de práctica `curso-datos`. Cópialo ahí, y desde
+la raíz del repo ejecútalo con:  uv run demo_guiado.py
 Cada PASO corresponde a una sección del README. No consultamos un servidor:
 DuckDB lee el CSV directamente desde el proceso de Python.
 
-Requisito único:  py -m pip install duckdb
+Requisito (en curso-datos):  uv add duckdb   y copiar ventas_ejemplo.csv a data/raw/
 """
 
 import duckdb
 
 # DuckDB puede leer el CSV directamente por su ruta. Usamos una constante
 # para no repetirla en cada consulta.
-CSV = "../datasets/ventas_ejemplo.csv"
+CSV = "data/raw/ventas_ejemplo.csv"   # el CSV que copiaste a tu repo curso-datos
 
 
 def titulo(n, texto):
@@ -150,4 +152,4 @@ correr(f"""
 """)
 
 print("\nListo. Cada paso es una consulta que puedes copiar a tu propio notebook o script.")
-print("Ahora hazlo tú:  py actividad_01.py")
+print("Ahora hazlo tú:  uv run actividad_01.py")

@@ -1,23 +1,26 @@
 """
-ACTIVIDAD 01 — Módulo 04 (SQL moderno con DuckDB)
+ACTIVIDAD 01 — Módulo 05 (SQL moderno con DuckDB)
 =================================================
 Mismo tipo de análisis que demo_guiado.py, pero ahora TÚ escribes el SQL, y
 sobre otras preguntas (foco en `canal` y `producto`).
+
+Este archivo se trabaja en tu repo de práctica `curso-datos`. Cópialo ahí y ejecútalo
+desde la raíz del repo con:  uv run actividad_01.py
 
 Cómo funciona:
   - Cada ejercicio te pide RELLENAR una cadena SQL entre las triples comillas.
   - NO cambies los nombres de las variables (SQL_1, SQL_2, ...).
   - Escribe SQL sobre la tabla `{CSV}` (usa la constante CSV con f-string, como en el demo).
-  - Ejecuta:  py actividad_01.py
   - El corrector del final ejecuta tu SQL y te dice qué está bien y qué no.
 
+Requisito (en curso-datos):  uv add duckdb   y copiar ventas_ejemplo.csv a data/raw/
 Pistas: todo está en el README, secciones 4.3 a 4.9. No mires demo_guiado.py
 hasta haberlo intentado al menos dos veces.
 """
 
 import duckdb
 
-CSV = "../datasets/ventas_ejemplo.csv"
+CSV = "data/raw/ventas_ejemplo.csv"   # el CSV que copiaste a tu repo curso-datos
 
 
 # ── EJERCICIO 1: total de ventas por canal ────────────────────────
@@ -127,7 +130,7 @@ def corregir():
     print("-" * 52)
     print(f"  {aciertos}/{len(checks)} correctos")
     if aciertos == len(checks):
-        print("\n  Perfecto. Listo para el Módulo 05.")
+        print("\n  Perfecto. Listo para el Módulo 06.")
     else:
         print("\n  Revisa los FALLA. Si una consulta lanza error, imprime el resultado")
         print("  con duckdb.sql(SQL_N).show() para depurarla.")

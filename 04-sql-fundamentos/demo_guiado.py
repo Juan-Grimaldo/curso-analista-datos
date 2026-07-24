@@ -1,10 +1,12 @@
 """
 Demo guiado del Módulo 04 — SQL: fundamentos, de principio a fin con DuckDB.
-Ejecútalo con:  py demo_guiado.py
+
+Este script se ejecuta en tu repo de práctica `curso-datos`. Cópialo ahí, y desde
+la raíz del repo ejecútalo con:  uv run demo_guiado.py
 Cada PASO corresponde a una sección del README. DuckDB lee el CSV directamente,
 sin servidores ni configuración.
 
-Requisito único:  py -m pip install duckdb
+Requisito (en curso-datos):  uv add duckdb   y copiar ventas_ejemplo.csv a data/raw/
 """
 
 import os
@@ -12,7 +14,7 @@ import os
 import duckdb
 
 # DuckDB consulta el CSV por su ruta, como si fuera una tabla.
-CSV = "../datasets/ventas_ejemplo.csv"
+CSV = "data/raw/ventas_ejemplo.csv"   # el CSV que copiaste a tu repo curso-datos
 
 
 def titulo(n, texto):
@@ -108,7 +110,7 @@ correr(f"""
 titulo(10, "JOIN: unir la tabla de hechos con sus dimensiones (4.11)")
 DB = "data/tienda.duckdb"
 if not os.path.exists(DB):
-    print("  Falta la base. Ejecuta primero:  py crear_db.py")
+    print("  Falta la base. Ejecuta primero:  uv run crear_db.py")
 else:
     con = duckdb.connect(DB)
 
@@ -133,4 +135,4 @@ else:
     con.close()
 
 print("\nListo. Estas consultas son todo lo que necesitas para empezar en SQL.")
-print("Ahora hazlo tú:  py actividad_01.py")
+print("Ahora hazlo tú:  uv run actividad_01.py")

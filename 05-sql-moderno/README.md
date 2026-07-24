@@ -19,7 +19,7 @@
 >
 > Crea ahí tu notebook (`notebooks/05-sql-moderno/practica.ipynb`) y escribe cada
 > **▶️ Practica ahora** tú mismo. Copia el
-> [`ventas_ejemplo.csv`](../datasets/ventas_ejemplo.csv) a la carpeta `data/` de tu repo.
+> [`ventas_ejemplo.csv`](../datasets/ventas_ejemplo.csv) a la carpeta `data/raw/` de tu repo.
 
 ---
 
