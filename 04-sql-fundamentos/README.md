@@ -20,8 +20,19 @@
 >
 > Crea ahí un notebook (`notebooks/04-sql-fundamentos/practica.ipynb`) o un script
 > (`src/sql_fundamentos.py`) y ve escribiendo cada **▶️ Practica ahora** tú mismo. Los scripts
-> de apoyo de este módulo (`crear_db.py`, `demo_guiado.py`, `actividad_01.py`) están pensados
-> para copiarlos a la raíz de tu repo y ejecutarlos con `uv run` (esperan el CSV en `data/raw/`).
+> de apoyo de este módulo están pensados para copiarlos a la raíz de tu repo y ejecutarlos con
+> `uv run`. Vienen en **dos sabores**, para que veas la misma SQL de las dos formas:
+>
+> | Sobre el **CSV** (sin base) | Sobre la **base de datos** |
+> |---|---|
+> | `demo_guiado.py` | `demo_guiado_bd.py` |
+> | `actividad_01.py` | `actividad_bd.py` |
+>
+> - Los `*_bd.py` y `crear_db.py` consultan las tablas con **nombre** (`ventas`, `dim_producto`,
+>   `dim_region`) de `data/tienda.duckdb`; requieren correr **`uv run crear_db.py`** una vez antes.
+> - Los otros leen el **CSV directo** (`data/raw/ventas_ejemplo.csv`), sin crear ninguna base.
+>
+> Empieza por la versión CSV (más simple) y luego repite sobre la base para notar la diferencia.
 
 ---
 
