@@ -1,4 +1,4 @@
-# Módulo 09 — Automatización y apps de datos
+# Módulo 10 — Automatización y apps de datos
 
 > **Objetivo:** dejar de hacer análisis "de una sola vez" y empezar a construir cosas que
 > **corren solas** y que otros pueden usar: scripts reutilizables, pipelines y apps con Streamlit.
@@ -64,7 +64,7 @@ if __name__ == "__main__":
 
 - **Windows:** Programador de tareas (Task Scheduler).
 - **macOS/Linux:** `cron`.
-- **En la nube:** GitHub Actions (gratis para tareas ligeras), Airflow/Dagster (Módulo 07).
+- **En la nube:** GitHub Actions (gratis para tareas ligeras), Airflow/Dagster (Módulo 08).
 
 ```yaml
 # .github/workflows/pipeline.yml — corre el pipeline cada día a las 6am
@@ -182,6 +182,6 @@ La app queda en una URL pública para tu **portafolio y CV**.
 
 Convierte tu proyecto del curso en una **app de datos desplegada**: un dashboard de Streamlit
 que lea tus datos procesados, con filtros, KPIs y 2–3 gráficos que cuenten la historia del
-Módulo 06. Despliégalo y añade la URL a tu README. Entregable de portafolio de primer nivel.
+Módulo 07. Despliégalo y añade la URL a tu README. Entregable de portafolio de primer nivel.
 
-➡️ Siguiente: [Módulo 10 — Proyecto final y carrera](../10-proyecto-final-y-carrera/README.md)
+➡️ Siguiente: [Módulo 11 — Proyecto final y carrera](../11-proyecto-final-y-carrera/README.md)

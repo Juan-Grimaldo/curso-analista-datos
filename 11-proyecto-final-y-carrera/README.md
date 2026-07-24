@@ -1,4 +1,4 @@
-# Módulo 10 — Proyecto final, portafolio y carrera
+# Módulo 11 — Proyecto final, portafolio y carrera
 
 > **Objetivo:** integrar todo el curso en un proyecto de punta a punta, construir un
 > portafolio que consiga entrevistas y trazar tu plan de crecimiento profesional.

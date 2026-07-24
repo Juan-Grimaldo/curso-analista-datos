@@ -1,4 +1,4 @@
-# Módulo 06 — Visualización de datos y storytelling
+# Módulo 07 — Visualización de datos y storytelling
 
 > **Objetivo:** convertir análisis en **comunicación que mueve decisiones**. Aprenderás a
 > elegir el gráfico correcto, a hacerlos con Python (matplotlib/seaborn/plotly), y los
@@ -17,7 +17,7 @@
 Antes de graficar, responde: **¿cuál es el UN mensaje que quiero transmitir?**
 
 > ### ▶️ Practica ahora
-> Toma un hallazgo de tu EDA (Módulo 05) y escríbelo como **una frase** (el mensaje).
+> Toma un hallazgo de tu EDA (Módulo 06) y escríbelo como **una frase** (el mensaje).
 > Ejemplo: "El canal Móvil vende menos pero con menos descuento". Ese será el mensaje a graficar.
 
 ---
@@ -122,7 +122,7 @@ sns.set_palette("colorblind")
 Cuando el público necesita **explorar** los datos por sí mismo, usas un **dashboard**.
 
 **Herramientas:** Power BI (estándar corporativo, lenguaje **DAX**), Tableau, Looker Studio
-(gratis), o **Streamlit** con Python (Módulo 09).
+(gratis), o **Streamlit** con Python (Módulo 10).
 
 **Anatomía de un buen dashboard:**
 ```
@@ -188,4 +188,4 @@ Crea un mini-informe visual (1 página o 3 slides) que cuente una historia con d
 **contexto → hallazgo → recomendación**, con 2–3 gráficos bien diseñados (título = conclusión,
 sin chartjunk, paleta accesible). Este material va directo a tu portafolio. Commit y push.
 
-➡️ Siguiente: [Módulo 07 — Modern data stack](../07-stack-datos-moderno/README.md)
+➡️ Siguiente: [Módulo 08 — Modern data stack](../08-stack-datos-moderno/README.md)

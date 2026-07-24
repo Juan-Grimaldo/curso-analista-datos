@@ -31,15 +31,16 @@ Al terminar serás capaz de:
 | 01 | [Fundamentos modernos](01-fundamentos-modernos/README.md) | Rol del analista hoy, ciclo de vida del dato, tipos de análisis | 4 |
 | 02 | [Entorno y Git](02-entorno-y-git/README.md) | Python moderno (uv), VS Code, Jupyter, Git/GitHub | 6 |
 | 03 | [Python: pandas y Polars](03-python-pandas-polars/README.md) | Manipulación de datos, limpieza, Polars para escala | 12 |
-| 04 | [SQL moderno](04-sql-moderno/README.md) | Consultas analíticas, CTEs, window functions, modelado | 10 |
-| 05 | [Estadística y EDA](05-estadistica-y-eda/README.md) | Estadística aplicada, EDA, inferencia, causalidad | 10 |
-| 06 | [Visualización y storytelling](06-visualizacion-y-storytelling/README.md) | matplotlib/plotly, Power BI, narrativa de datos | 10 |
-| 07 | [Modern data stack](07-stack-datos-moderno/README.md) | ELT, dbt, warehouses, orquestación | 8 |
-| 08 | [IA generativa aplicada](08-ia-generativa-aplicada/README.md) | LLMs como copiloto, prompting, RAG, límites y ética | 8 |
-| 09 | [Automatización y apps](09-automatizacion-y-apps/README.md) | Pipelines, Streamlit, dashboards, despliegue | 6 |
-| 10 | [Proyecto final y carrera](10-proyecto-final-y-carrera/README.md) | Portafolio, entrevistas, plan de crecimiento | 8 |
+| 04 | [SQL: fundamentos](04-sql-fundamentos/README.md) | Primer contacto con SQL: SELECT, WHERE, GROUP BY, ORDER BY, JOIN básico | 8 |
+| 05 | [SQL moderno](05-sql-moderno/README.md) | Consultas analíticas, CTEs, window functions, modelado | 10 |
+| 06 | [Estadística y EDA](06-estadistica-y-eda/README.md) | Estadística aplicada, EDA, inferencia, causalidad | 10 |
+| 07 | [Visualización y storytelling](07-visualizacion-y-storytelling/README.md) | matplotlib/plotly, Power BI, narrativa de datos | 10 |
+| 08 | [Modern data stack](08-stack-datos-moderno/README.md) | ELT, dbt, warehouses, orquestación | 8 |
+| 09 | [IA generativa aplicada](09-ia-generativa-aplicada/README.md) | LLMs como copiloto, prompting, RAG, límites y ética | 8 |
+| 10 | [Automatización y apps](10-automatizacion-y-apps/README.md) | Pipelines, Streamlit, dashboards, despliegue | 6 |
+| 11 | [Proyecto final y carrera](11-proyecto-final-y-carrera/README.md) | Portafolio, entrevistas, plan de crecimiento | 8 |
 
-**Duración total estimada:** ~90 horas (8–12 semanas a ritmo part-time).
+**Duración total estimada:** ~98 horas (9–13 semanas a ritmo part-time).
 
 ---
 
@@ -66,7 +67,7 @@ Curso Analista de datos/
 ├── 00-introduccion/
 ├── 01-fundamentos-modernos/
 ├── ...
-├── 10-proyecto-final-y-carrera/
+├── 11-proyecto-final-y-carrera/
 ├── datasets/                     ← datos de práctica
 └── recursos/                     ← plantillas, checklists, glosario
 ```

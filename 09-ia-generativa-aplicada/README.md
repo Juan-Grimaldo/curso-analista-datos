@@ -1,4 +1,4 @@
-# Módulo 08 — IA generativa aplicada al análisis de datos
+# Módulo 09 — IA generativa aplicada al análisis de datos
 
 > **Objetivo:** usar LLMs (Claude, ChatGPT, Copilot…) como **acelerador profesional** del
 > análisis, con criterio: prompting efectivo, verificación, límites y ética.
@@ -173,8 +173,8 @@ El patrón: **la IA acelera lo mecánico; tú aportas el criterio en las decisio
 
 ## Reto del módulo (cierre)
 
-Reescribe el resumen ejecutivo de tu informe de EDA (Módulo 05) con ayuda de IA: dale tus
+Reescribe el resumen ejecutivo de tu informe de EDA (Módulo 06) con ayuda de IA: dale tus
 hallazgos **verificados** y pídele un texto claro para un directivo. Luego **corrígelo tú**
 (la IA no conoce tu negocio). Documenta qué cambiaste y por qué: esa diferencia es tu valor.
 
-➡️ Siguiente: [Módulo 09 — Automatización y apps](../09-automatizacion-y-apps/README.md)
+➡️ Siguiente: [Módulo 10 — Automatización y apps](../10-automatizacion-y-apps/README.md)

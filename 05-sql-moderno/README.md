@@ -1,4 +1,4 @@
-# Módulo 04 — SQL moderno para analistas
+# Módulo 05 — SQL moderno para analistas
 
 > **Objetivo:** escribir SQL analítico profesional: desde consultas sólidas hasta CTEs,
 > *window functions* y buenas prácticas de modelado. Practicaremos con **DuckDB**, que
@@ -7,13 +7,20 @@
 > 🧭 **Formato:** cada concepto va seguido de un **▶️ Practica ahora** sobre
 > [`ventas_ejemplo.csv`](../datasets/ventas_ejemplo.csv) usando DuckDB. Ejecútalo en el
 > momento. Al final, un **Reto** de cierre.
+>
+> ⚙️ **Instala DuckDB una vez:** `py -m pip install duckdb`
+>
+> 🎬 **Ver el proceso completo:** `py demo_guiado.py` — las consultas de todas las secciones
+> ejecutadas de principio a fin sobre este dataset.
+> ✍️ **Hacerlo tú:** `py actividad_01.py` — tú escribes el SQL sobre otras preguntas, con
+> corrector automático que ejecuta tus consultas y te dice qué falta.
 
 ---
 
 ## 4.1 Por qué SQL sigue siendo el rey
 
 Aunque uses Python, **SQL es el lenguaje de los datos**: los warehouses (BigQuery,
-Snowflake, Redshift) hablan SQL, y dbt (Módulo 07) es SQL con superpoderes. Un analista
+Snowflake, Redshift) hablan SQL, y dbt (Módulo 08) es SQL con superpoderes. Un analista
 que domina SQL es infinitamente más empleable.
 
 > 💡 Regla práctica: **transforma cerca del dato**. Si el dato vive en un warehouse,
@@ -237,7 +244,7 @@ dim_producto ─┼─ FACT_ventas ─┬─ dim_cliente
 - **Tablas de dimensiones (dim):** el contexto (producto, cliente, tiempo, región).
 
 Este modelo hace los dashboards rápidos e intuitivos. Es el estándar en Power BI/Tableau
-y lo construirás con dbt en el Módulo 07.
+y lo construirás con dbt en el Módulo 08.
 
 > ### ▶️ Practica ahora
 > Mira `ventas_ejemplo.csv` e identifica: ¿cuál sería la **tabla de hechos**? ¿qué columnas
@@ -262,4 +269,4 @@ Escribe **una** consulta (con al menos una CTE y una window function) que produz
 lista para un dashboard: una métrica clave cortada por 2 dimensiones (ej. región y mes) con
 su **variación temporal**. Documenta qué pregunta de negocio responde. Guárdala en tu repo.
 
-➡️ Siguiente: [Módulo 05 — Estadística y EDA](../05-estadistica-y-eda/README.md)
+➡️ Siguiente: [Módulo 06 — Estadística y EDA](../06-estadistica-y-eda/README.md)

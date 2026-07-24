@@ -21,7 +21,7 @@ Dataset sintético de ventas para los ejercicios de los módulos 03–06 y 09.
 > - **Outliers** (algunas ventas ~8× lo normal).
 > - **Filas duplicadas** (15 al final).
 
-Este es tu campo de entrenamiento: aplica todo lo del Módulo 03 (limpieza) y Módulo 05 (EDA).
+Este es tu campo de entrenamiento: aplica todo lo del Módulo 03 (limpieza) y Módulo 06 (EDA).
 
 ## Otros datasets recomendados (reales)
 
