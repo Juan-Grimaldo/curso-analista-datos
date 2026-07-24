@@ -8,13 +8,19 @@
 > [`ventas_ejemplo.csv`](../datasets/ventas_ejemplo.csv) usando DuckDB. Ejecuta cada práctica
 > antes de seguir. Al final, un **Reto** de cierre.
 >
-> ⚙️ **Prepara todo una vez:** `py -m pip install duckdb` y luego `py crear_db.py`
-> (esto genera `data/tienda.duckdb`, la base con varias tablas que usarás para los JOINs de 4.11).
+> 📂 **Dónde practicas:** este README es solo la **teoría**. Todo lo que escribas va en tu
+> **repo de práctica** `curso-datos` (proyecto aparte). Prepáralo una sola vez:
 >
-> 🎬 **Ver el proceso completo:** `py demo_guiado.py` — todas las consultas de este módulo
-> ejecutadas de principio a fin sobre el dataset.
-> ✍️ **Hacerlo tú:** `py actividad_01.py` — tú escribes el SQL, con corrector automático
-> que ejecuta tus consultas y te dice qué falta.
+> ```bash
+> cd curso-datos
+> uv add duckdb                       # añade DuckDB a tu entorno
+> mkdir -p notebooks/04-sql-fundamentos
+> ```
+>
+> Crea ahí un notebook (`notebooks/04-sql-fundamentos/practica.ipynb`) o un script
+> (`src/sql_fundamentos.py`) y ve escribiendo cada **▶️ Practica ahora** tú mismo. Copia el
+> [`ventas_ejemplo.csv`](../datasets/ventas_ejemplo.csv) a la carpeta `data/` de tu repo para
+> tenerlo a mano.
 
 ---
 
@@ -213,14 +219,33 @@ SELECT COUNT(DISTINCT canal) FROM 'ventas_ejemplo.csv';    -- cuántos canales d
 ## 4.11 JOIN: combinar tablas de una base de datos
 
 Hasta aquí consultábamos **un solo CSV**. Pero en el mundo real los datos viven repartidos en
-**varias tablas** dentro de una base de datos, y `JOIN` es lo que las une. Para practicarlo
-con tablas de verdad, crea una pequeña base DuckDB:
+**varias tablas** dentro de una base de datos, y `JOIN` es lo que las une. Para practicarlo con
+tablas de verdad, crea en tu repo `curso-datos` una pequeña base DuckDB con este script (guárdalo
+como `src/crear_tienda.py` y ejecútalo una vez con `uv run src/crear_tienda.py`):
 
-```
-py crear_db.py        # genera data/tienda.duckdb con 3 tablas
+```python
+import pathlib, duckdb
+
+CSV = "data/ventas_ejemplo.csv"          # el CSV que copiaste a tu repo
+DB  = "data/tienda.duckdb"
+pathlib.Path("data").mkdir(exist_ok=True)
+pathlib.Path(DB).unlink(missing_ok=True)  # empezar de cero cada vez
+
+con = duckdb.connect(DB)
+con.execute(f"CREATE TABLE ventas AS SELECT * FROM '{CSV}'")   # tabla de HECHOS
+con.execute("""CREATE TABLE dim_producto (producto VARCHAR, nombre VARCHAR, categoria VARCHAR)""")
+con.execute("""INSERT INTO dim_producto VALUES
+    ('A','Alfa','Bebidas'), ('B','Beta','Snacks'),
+    ('C','Cesar','Bebidas'), ('D','Delta','Snacks')""")
+con.execute("""CREATE TABLE dim_region (region VARCHAR, zona VARCHAR, responsable VARCHAR)""")
+con.execute("""INSERT INTO dim_region VALUES
+    ('Norte','Continental','Ana Ruiz'), ('Sur','Continental','Luis Paz'),
+    ('Este','Costa','Marta Sol'),       ('Oeste','Costa','Beto Lima')""")
+con.close()
+print("Base creada en", DB)
 ```
 
-Contiene un mini **esquema estrella** (lo verás formalmente en el Módulo 05):
+Genera `data/tienda.duckdb` con un mini **esquema estrella** (lo verás formalmente en el Módulo 05):
 
 ```
    dim_producto            dim_region
@@ -307,6 +332,6 @@ Con solo lo de este módulo, responde estas 3 preguntas de negocio, **una consul
 3. ¿Cuál es el **promedio de ventas por canal**, ordenado de mayor a menor?
 4. Con un **JOIN** sobre `tienda.duckdb`: ¿qué **zona** (`dim_region`) vende más en total?
 
-Guarda las 4 consultas en un archivo `.sql` o en tu notebook y haz commit a tu repo.
+Guarda las 4 consultas en tu notebook/script de `curso-datos` y haz commit a **ese** repo de práctica.
 
 ➡️ Siguiente: [Módulo 05 — SQL moderno](../05-sql-moderno/README.md)

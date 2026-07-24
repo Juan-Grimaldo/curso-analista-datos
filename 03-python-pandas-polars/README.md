@@ -4,8 +4,13 @@
 > es la alternativa moderna para grandes volúmenes. Aprenderás ambos y cuándo usar cada uno.
 >
 > 🧭 **Formato:** cada bloque de teoría va seguido de un **▶️ Practica ahora** con el dataset
-> [`ventas_ejemplo.csv`](../datasets/ventas_ejemplo.csv) (cópialo a tu `data/raw/` como viste
-> en el Módulo 02). Ejecuta cada práctica en tu notebook antes de seguir. Al final, un **Reto**.
+> [`ventas_ejemplo.csv`](../datasets/ventas_ejemplo.csv). Ejecuta cada práctica antes de seguir.
+> Al final, un **Reto**.
+>
+> 📂 **Dónde practicas:** este README es solo la **teoría**. Todo lo que escribas va en tu
+> **repo de práctica** `curso-datos`. Crea ahí tu notebook
+> (`notebooks/03-python-pandas-polars/practica.ipynb`) y copia el
+> [`ventas_ejemplo.csv`](../datasets/ventas_ejemplo.csv) a tu `data/raw/` (como viste en el Módulo 02).
 
 ---
 
@@ -312,4 +317,4 @@ Con lo que practicaste, haz una **limpieza completa documentada** en un notebook
 responde 3 preguntas con `groupby`. Guarda el resultado limpio en `data/processed/` como
 **Parquet** (`df.to_parquet(...)`). Haz commit y push a tu repo `curso-datos`.
 
-➡️ Siguiente: [Módulo 04 — SQL moderno](../04-sql-moderno/README.md)
+➡️ Siguiente: [Módulo 04 — SQL: fundamentos](../04-sql-fundamentos/README.md)

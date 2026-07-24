@@ -5,6 +5,10 @@
 >
 > 🧭 **Formato:** este módulo es práctico por naturaleza. Cada bloque va seguido de un
 > **▶️ Practica ahora** que construye una pieza de tu entregable final.
+>
+> 📂 **Dónde practicas:** este README es solo la **teoría**. El proyecto final completo lo
+> construyes y publicas desde tu **repo de práctica** `curso-datos` (o un repo nuevo dedicado
+> al capstone, si prefieres separarlo para tu portafolio).
 
 ---
 

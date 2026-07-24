@@ -8,12 +8,18 @@
 > [`ventas_ejemplo.csv`](../datasets/ventas_ejemplo.csv) usando DuckDB. Ejecútalo en el
 > momento. Al final, un **Reto** de cierre.
 >
-> ⚙️ **Instala DuckDB una vez:** `py -m pip install duckdb`
+> 📂 **Dónde practicas:** este README es solo la **teoría**. Todo lo que escribas va en tu
+> **repo de práctica** `curso-datos`. Prepáralo una sola vez:
 >
-> 🎬 **Ver el proceso completo:** `py demo_guiado.py` — las consultas de todas las secciones
-> ejecutadas de principio a fin sobre este dataset.
-> ✍️ **Hacerlo tú:** `py actividad_01.py` — tú escribes el SQL sobre otras preguntas, con
-> corrector automático que ejecuta tus consultas y te dice qué falta.
+> ```bash
+> cd curso-datos
+> uv add duckdb                       # añade DuckDB a tu entorno
+> mkdir -p notebooks/05-sql-moderno
+> ```
+>
+> Crea ahí tu notebook (`notebooks/05-sql-moderno/practica.ipynb`) y escribe cada
+> **▶️ Practica ahora** tú mismo. Copia el
+> [`ventas_ejemplo.csv`](../datasets/ventas_ejemplo.csv) a la carpeta `data/` de tu repo.
 
 ---
 
@@ -267,6 +273,7 @@ y lo construirás con dbt en el Módulo 08.
 
 Escribe **una** consulta (con al menos una CTE y una window function) que produzca una tabla
 lista para un dashboard: una métrica clave cortada por 2 dimensiones (ej. región y mes) con
-su **variación temporal**. Documenta qué pregunta de negocio responde. Guárdala en tu repo.
+su **variación temporal**. Documenta qué pregunta de negocio responde. Guárdala en tu notebook de
+`curso-datos` y haz commit a **ese** repo de práctica.
 
 ➡️ Siguiente: [Módulo 06 — Estadística y EDA](../06-estadistica-y-eda/README.md)

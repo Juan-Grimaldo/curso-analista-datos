@@ -4,6 +4,9 @@
 > **corren solas** y que otros pueden usar: scripts reutilizables, pipelines y apps con Streamlit.
 >
 > 🧭 **Formato:** cada bloque va seguido de un **▶️ Practica ahora**. Al final, un **Reto** de cierre.
+>
+> 📂 **Dónde practicas:** este README es solo la **teoría**. Los scripts (`src/`), la app
+> (`app.py`) y los workflows van en tu **repo de práctica** `curso-datos`.
 
 ---
 

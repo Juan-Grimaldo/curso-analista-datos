@@ -6,6 +6,10 @@
 >
 > 🧭 **Formato:** cada bloque va seguido de un **▶️ Practica ahora** con tu dataset. Al final,
 > un **Reto** de cierre.
+>
+> 📂 **Dónde practicas:** este README es solo la **teoría**. Todo lo que escribas va en tu
+> **repo de práctica** `curso-datos` (notebook en `notebooks/07-visualizacion-y-storytelling/`;
+> guarda los gráficos en `reports/`).
 
 ---
 

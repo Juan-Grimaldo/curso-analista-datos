@@ -6,6 +6,9 @@
 >
 > 🧭 **Formato:** cada bloque va seguido de un **▶️ Practica ahora**. Los primeros son de
 > reflexión; a partir de dbt, son prácticos. Al final, un **Reto** de cierre.
+>
+> 📂 **Dónde practicas:** este README es solo la **teoría**. Todo lo que hagas (el proyecto
+> dbt, los modelos SQL) va en tu **repo de práctica** `curso-datos`.
 
 ---
 

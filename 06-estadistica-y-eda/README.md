@@ -6,6 +6,10 @@
 >
 > 🧭 **Formato:** cada bloque va seguido de un **▶️ Practica ahora** sobre tu dataset limpio.
 > Ejecútalo en el momento. Al final, un **Reto** de cierre.
+>
+> 📂 **Dónde practicas:** este README es solo la **teoría**. Todo lo que escribas va en tu
+> **repo de práctica** `curso-datos` (notebook en `notebooks/06-estadistica-y-eda/`, funciones
+> reutilizables en `src/`).
 
 ---
 

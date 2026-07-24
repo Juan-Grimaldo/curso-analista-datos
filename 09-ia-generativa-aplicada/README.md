@@ -5,6 +5,9 @@
 >
 > 🧭 **Formato:** cada bloque va seguido de un **▶️ Practica ahora** (usa tu asistente de IA
 > preferido). Al final, un **Reto** de cierre.
+>
+> 📂 **Dónde practicas:** este README es solo la **teoría**. Lo que generes o escribas
+> (política de uso de IA, prompts, código) guárdalo en tu **repo de práctica** `curso-datos`.
 
 ---
 
