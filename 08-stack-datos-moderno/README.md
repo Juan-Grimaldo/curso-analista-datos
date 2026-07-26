@@ -1,4 +1,4 @@
-# Módulo 07 — El Modern Data Stack
+# Módulo 08 — El Modern Data Stack
 
 > **Objetivo:** entender cómo se organizan los datos en empresas modernas y aprender los
 > fundamentos de **dbt**, la herramienta que convirtió a los analistas en *analytics
@@ -6,6 +6,9 @@
 >
 > 🧭 **Formato:** cada bloque va seguido de un **▶️ Practica ahora**. Los primeros son de
 > reflexión; a partir de dbt, son prácticos. Al final, un **Reto** de cierre.
+>
+> 📂 **Dónde practicas:** este README es solo la **teoría**. Todo lo que hagas (el proyecto
+> dbt, los modelos SQL) va en tu **repo de práctica** `curso-datos`.
 
 ---
 
@@ -144,7 +147,7 @@ dbt init mi_proyecto_dbt   # crea la estructura
 ```
 
 Configura DuckDB como destino en `profiles.yml` y ya puedes escribir modelos y correr
-`dbt build`. Todo el SQL del Módulo 04 aplica directo.
+`dbt build`. Todo el SQL de los Módulos 04 y 05 aplica directo.
 
 > 💡 Esta es la mejor forma de poner **dbt en tu portafolio** sin pagar un warehouse.
 
@@ -202,4 +205,4 @@ Monta un mini-proyecto **dbt + DuckDB** con tu dataset: al menos 1 modelo de sta
 mart, con 2 pruebas y descripciones en el `.yml`. Genera la documentación (`dbt docs`) y
 captura el **diagrama de linaje**. Súbelo a tu repo: es oro puro en un portafolio.
 
-➡️ Siguiente: [Módulo 08 — IA generativa aplicada](../08-ia-generativa-aplicada/README.md)
+➡️ Siguiente: [Módulo 09 — IA generativa aplicada](../09-ia-generativa-aplicada/README.md)

@@ -1,4 +1,4 @@
-# Módulo 05 — Estadística aplicada y análisis exploratorio (EDA)
+# Módulo 06 — Estadística aplicada y análisis exploratorio (EDA)
 
 > **Objetivo:** desarrollar criterio estadístico para no engañarte (ni engañar). Aprenderás
 > EDA sistemático, estadística descriptiva e inferencial, y a distinguir correlación de
@@ -6,6 +6,10 @@
 >
 > 🧭 **Formato:** cada bloque va seguido de un **▶️ Practica ahora** sobre tu dataset limpio.
 > Ejecútalo en el momento. Al final, un **Reto** de cierre.
+>
+> 📂 **Dónde practicas:** este README es solo la **teoría**. Todo lo que escribas va en tu
+> **repo de práctica** `curso-datos` (notebook en `notebooks/06-estadistica-y-eda/`, funciones
+> reutilizables en `src/`).
 
 ---
 
@@ -211,4 +215,4 @@ Escribe un **informe de EDA** (notebook) sobre tu dataset: forma, calidad, distr
 3 variables, matriz de correlación, 2 outliers investigados y 3 hallazgos con su implicación.
 Termina con una sección **"qué NO puedo concluir y por qué"**. Commit y push.
 
-➡️ Siguiente: [Módulo 06 — Visualización y storytelling](../06-visualizacion-y-storytelling/README.md)
+➡️ Siguiente: [Módulo 07 — Visualización y storytelling](../07-visualizacion-y-storytelling/README.md)

@@ -68,7 +68,7 @@ El *modern data stack* invirtió el orden clásico:
 - **ELT** (Extract → Load → Transform): cargas los datos crudos al warehouse y
   **transformas dentro** con SQL. Flexible y escalable.
 
-Este cambio es la razón de ser de herramientas como **dbt** (Módulo 07).
+Este cambio es la razón de ser de herramientas como **dbt** (Módulo 08).
 
 > ### ▶️ Practica ahora
 > Explica con tus propias palabras (2 frases) por qué cargar primero los datos crudos y

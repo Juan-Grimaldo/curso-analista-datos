@@ -1,10 +1,14 @@
-# Módulo 10 — Proyecto final, portafolio y carrera
+# Módulo 11 — Proyecto final, portafolio y carrera
 
 > **Objetivo:** integrar todo el curso en un proyecto de punta a punta, construir un
 > portafolio que consiga entrevistas y trazar tu plan de crecimiento profesional.
 >
 > 🧭 **Formato:** este módulo es práctico por naturaleza. Cada bloque va seguido de un
 > **▶️ Practica ahora** que construye una pieza de tu entregable final.
+>
+> 📂 **Dónde practicas:** este README es solo la **teoría**. El proyecto final completo lo
+> construyes y publicas desde tu **repo de práctica** `curso-datos` (o un repo nuevo dedicado
+> al capstone, si prefieres separarlo para tu portafolio).
 
 ---
 

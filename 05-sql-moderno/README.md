@@ -1,4 +1,4 @@
-# Módulo 04 — SQL moderno para analistas
+# Módulo 05 — SQL moderno para analistas
 
 > **Objetivo:** escribir SQL analítico profesional: desde consultas sólidas hasta CTEs,
 > *window functions* y buenas prácticas de modelado. Practicaremos con **DuckDB**, que
@@ -7,13 +7,26 @@
 > 🧭 **Formato:** cada concepto va seguido de un **▶️ Practica ahora** sobre
 > [`ventas_ejemplo.csv`](../datasets/ventas_ejemplo.csv) usando DuckDB. Ejecútalo en el
 > momento. Al final, un **Reto** de cierre.
+>
+> 📂 **Dónde practicas:** este README es solo la **teoría**. Todo lo que escribas va en tu
+> **repo de práctica** `curso-datos`. Prepáralo una sola vez:
+>
+> ```bash
+> cd curso-datos
+> uv add duckdb                       # añade DuckDB a tu entorno
+> mkdir -p notebooks/05-sql-moderno
+> ```
+>
+> Crea ahí tu notebook (`notebooks/05-sql-moderno/practica.ipynb`) y escribe cada
+> **▶️ Practica ahora** tú mismo. Copia el
+> [`ventas_ejemplo.csv`](../datasets/ventas_ejemplo.csv) a la carpeta `data/raw/` de tu repo.
 
 ---
 
 ## 4.1 Por qué SQL sigue siendo el rey
 
 Aunque uses Python, **SQL es el lenguaje de los datos**: los warehouses (BigQuery,
-Snowflake, Redshift) hablan SQL, y dbt (Módulo 07) es SQL con superpoderes. Un analista
+Snowflake, Redshift) hablan SQL, y dbt (Módulo 08) es SQL con superpoderes. Un analista
 que domina SQL es infinitamente más empleable.
 
 > 💡 Regla práctica: **transforma cerca del dato**. Si el dato vive en un warehouse,
@@ -237,7 +250,7 @@ dim_producto ─┼─ FACT_ventas ─┬─ dim_cliente
 - **Tablas de dimensiones (dim):** el contexto (producto, cliente, tiempo, región).
 
 Este modelo hace los dashboards rápidos e intuitivos. Es el estándar en Power BI/Tableau
-y lo construirás con dbt en el Módulo 07.
+y lo construirás con dbt en el Módulo 08.
 
 > ### ▶️ Practica ahora
 > Mira `ventas_ejemplo.csv` e identifica: ¿cuál sería la **tabla de hechos**? ¿qué columnas
@@ -260,6 +273,7 @@ y lo construirás con dbt en el Módulo 07.
 
 Escribe **una** consulta (con al menos una CTE y una window function) que produzca una tabla
 lista para un dashboard: una métrica clave cortada por 2 dimensiones (ej. región y mes) con
-su **variación temporal**. Documenta qué pregunta de negocio responde. Guárdala en tu repo.
+su **variación temporal**. Documenta qué pregunta de negocio responde. Guárdala en tu notebook de
+`curso-datos` y haz commit a **ese** repo de práctica.
 
-➡️ Siguiente: [Módulo 05 — Estadística y EDA](../05-estadistica-y-eda/README.md)
+➡️ Siguiente: [Módulo 06 — Estadística y EDA](../06-estadistica-y-eda/README.md)
