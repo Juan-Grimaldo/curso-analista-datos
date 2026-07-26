@@ -312,4 +312,14 @@ Con lo que practicaste, haz una **limpieza completa documentada** en un notebook
 responde 3 preguntas con `groupby`. Guarda el resultado limpio en `data/processed/` como
 **Parquet** (`df.to_parquet(...)`). Haz commit y push a tu repo `curso-datos`.
 
+---
+
+## Material complementario del módulo
+
+- 📓 **[Ejemplo completo](EJEMPLO.md)** — un análisis de principio a fin sobre
+  `ventas_ejemplo.csv` que recorre las 12 secciones del módulo, con los resultados
+  reales para que verifiques cada paso.
+- 🏋️ **[Actividades](ACTIVIDADES.md)** — 13 ejercicios + mini-informe final en 4
+  niveles de dificultad, con verificaciones numéricas y soluciones plegadas.
+
 ➡️ Siguiente: [Módulo 04 — SQL moderno](../04-sql-moderno/README.md)
