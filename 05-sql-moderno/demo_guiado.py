@@ -1,41 +1,53 @@
 """
 Demo guiado del Módulo 05 — SQL moderno con DuckDB, de principio a fin.
 
+Aquí NADA consulta un CSV: todo corre sobre la BASE DE DATOS data/tienda.duckdb,
+que ya creaste en el Módulo 04. Las tablas tienen NOMBRE (`ventas`, `dim_producto`,
+`dim_region`) y se consultan sin comillas ni rutas.
+
 Este script se ejecuta en tu repo de práctica `curso-datos`. Cópialo ahí, y desde
 la raíz del repo ejecútalo con:  uv run demo_guiado.py
-Cada PASO corresponde a una sección del README. No consultamos un servidor:
-DuckDB lee el CSV directamente desde el proceso de Python.
+Cada PASO corresponde a una sección del README.
 
-Requisito (en curso-datos):  uv add duckdb   y copiar ventas_ejemplo.csv a data/raw/
+Requisito (en curso-datos):  uv add duckdb  y haber creado la base UNA vez con el
+script del Módulo 04:  uv run crear_db.py   → genera data/tienda.duckdb.
 """
+
+import os
 
 import duckdb
 
-# DuckDB puede leer el CSV directamente por su ruta. Usamos una constante
-# para no repetirla en cada consulta.
-CSV = "data/raw/ventas_ejemplo.csv"   # el CSV que copiaste a tu repo curso-datos
+DB = "data/tienda.duckdb"   # la base que creaste en el Módulo 04 con crear_db.py
 
 
 def titulo(n, texto):
     print(f"\n{'=' * 62}\nPASO {n}: {texto}\n{'=' * 62}")
 
 
+if not os.path.exists(DB):
+    raise SystemExit(
+        f"Falta la base {DB}. Ejecuta primero el script del Módulo 04:  uv run crear_db.py"
+    )
+
+con = duckdb.connect(DB)
+
+
 def correr(sql):
-    """Ejecuta SQL sobre el CSV y muestra el resultado como tabla."""
-    duckdb.sql(sql).show()
+    """Ejecuta SQL sobre la base y muestra el resultado como tabla."""
+    con.sql(sql).show()
 
 
-# ── PASO 1: CONSULTAR SIN CARGAR NADA (4.2) ───────────────────────
-titulo(1, "DuckDB lee el CSV directo, sin importarlo (4.2)")
-correr(f"SELECT * FROM '{CSV}' LIMIT 5")
-n = duckdb.sql(f"SELECT COUNT(*) AS filas FROM '{CSV}'").fetchone()[0]
-print(f"El archivo tiene {n} filas y 8 columnas.")
+# ── PASO 1: CONSULTAR UNA TABLA CON NOMBRE (4.2) ──────────────────
+titulo(1, "La tabla 'ventas' vive en la base: se consulta por su nombre (4.2)")
+correr("SELECT * FROM ventas LIMIT 5")
+n = con.sql("SELECT COUNT(*) AS filas FROM ventas").fetchone()[0]
+print(f"La tabla tiene {n} filas y 8 columnas.")
 
 # ── PASO 2: LA CONSULTA FUNDAMENTAL Y SU ORDEN (4.3) ──────────────
 titulo(2, "SELECT / WHERE / GROUP BY / HAVING / ORDER BY (4.3)")
-correr(f"""
+correr("""
     SELECT   region, SUM(ventas) AS ventas_total
-    FROM     '{CSV}'
+    FROM     ventas
     WHERE    ventas IS NOT NULL
     GROUP BY region
     HAVING   SUM(ventas) > 1000
@@ -45,9 +57,9 @@ print("Recuerda el orden de EJECUCIÓN: FROM → WHERE → GROUP BY → HAVING �
 
 # ── PASO 3: FILTRAR BIEN (4.4) ────────────────────────────────────
 titulo(3, "Filtrado con IN, BETWEEN y IS NOT NULL (4.4)")
-correr(f"""
+correr("""
     SELECT canal, COUNT(*) AS n_ventas, SUM(ventas) AS total
-    FROM   '{CSV}'
+    FROM   ventas
     WHERE  canal IN ('Web', 'Movil')
       AND  ventas BETWEEN 90 AND 500
     GROUP BY canal
@@ -56,7 +68,7 @@ correr(f"""
 
 # ── PASO 4: AGREGACIONES (4.5) ────────────────────────────────────
 titulo(4, "Agregaciones: COUNT, SUM, AVG, MEDIAN (4.5)")
-correr(f"""
+correr("""
     SELECT
         region,
         COUNT(*)                 AS n_ventas,
@@ -64,30 +76,27 @@ correr(f"""
         SUM(ventas)              AS total,
         ROUND(AVG(ventas), 1)    AS promedio,
         MEDIAN(ventas)           AS mediana
-    FROM '{CSV}'
+    FROM ventas
     GROUP BY region
     ORDER BY total DESC
 """)
 
-# ── PASO 5: JOIN CON UNA TABLA DE REFERENCIA (4.6) ────────────────
-titulo(5, "JOIN: enriquecer con nombres de producto (4.6)")
-correr(f"""
-    WITH ref(producto, nombre) AS (
-        VALUES ('A', 'Alfa'), ('B', 'Beta'), ('C', 'Cesar'), ('D', 'Delta')
-    )
-    SELECT r.nombre, COUNT(*) AS n_ventas, SUM(v.ventas) AS total
-    FROM '{CSV}' v
-    LEFT JOIN ref r ON v.producto = r.producto
-    GROUP BY r.nombre
+# ── PASO 5: JOIN CON UNA DIMENSIÓN REAL (4.6) ─────────────────────
+titulo(5, "JOIN: enriquecer con el nombre del producto desde dim_producto (4.6)")
+correr("""
+    SELECT p.nombre, COUNT(*) AS n_ventas, SUM(v.ventas) AS total
+    FROM ventas v
+    LEFT JOIN dim_producto p ON v.producto = p.producto
+    GROUP BY p.nombre
     ORDER BY total DESC
 """)
 
 # ── PASO 6: CTEs Y RANKING (4.7) ──────────────────────────────────
 titulo(6, "Dos CTEs encadenadas: top 3 regiones por mes (4.7)")
-correr(f"""
+correr("""
     WITH ventas_mes AS (
         SELECT DATE_TRUNC('month', fecha) AS mes, region, SUM(ventas) AS total
-        FROM '{CSV}'
+        FROM ventas
         GROUP BY 1, 2
     ),
     ranking AS (
@@ -100,10 +109,10 @@ correr(f"""
 
 # ── PASO 7: WINDOW FUNCTIONS — VARIACIÓN MES A MES (4.8) ───────────
 titulo(7, "Window function LAG: variación % mes a mes (4.8)")
-correr(f"""
+correr("""
     WITH mensual AS (
         SELECT DATE_TRUNC('month', fecha) AS mes, SUM(ventas) AS total
-        FROM '{CSV}'
+        FROM ventas
         GROUP BY 1
     )
     SELECT
@@ -118,7 +127,7 @@ print("El mayor salto es en mayo (+12.5%) y la mayor caída en junio (-21.0%).")
 
 # ── PASO 8: CASE — SEGMENTAR (4.9) ────────────────────────────────
 titulo(8, "CASE: segmentar ventas y contar cada segmento (4.9)")
-correr(f"""
+correr("""
     WITH segmentado AS (
         SELECT
             CASE
@@ -126,7 +135,7 @@ correr(f"""
                 WHEN ventas >= 90  THEN 'Medio'
                 ELSE 'Bajo'
             END AS segmento
-        FROM '{CSV}'
+        FROM ventas
         WHERE ventas IS NOT NULL
     )
     SELECT segmento, COUNT(*) AS n
@@ -137,10 +146,10 @@ correr(f"""
 
 # ── PASO 9: CONSULTA LISTA PARA DASHBOARD (4.10 / Reto) ────────────
 titulo(9, "Métrica por 2 dimensiones + variación temporal (4.10)")
-correr(f"""
+correr("""
     WITH base AS (
         SELECT DATE_TRUNC('month', fecha) AS mes, region, SUM(ventas) AS total
-        FROM '{CSV}'
+        FROM ventas
         WHERE ventas IS NOT NULL
         GROUP BY 1, 2
     )
@@ -150,6 +159,8 @@ correr(f"""
     FROM base
     ORDER BY region, mes
 """)
+
+con.close()
 
 print("\nListo. Cada paso es una consulta que puedes copiar a tu propio notebook o script.")
 print("Ahora hazlo tú:  uv run actividad_01.py")

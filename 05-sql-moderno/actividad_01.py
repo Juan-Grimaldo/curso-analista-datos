@@ -4,38 +4,40 @@ ACTIVIDAD 01 — Módulo 05 (SQL moderno con DuckDB)
 Mismo tipo de análisis que demo_guiado.py, pero ahora TÚ escribes el SQL, y
 sobre otras preguntas (foco en `canal` y `producto`).
 
+Aquí NADA consulta un CSV: todo el SQL va sobre la BASE DE DATOS data/tienda.duckdb,
+usando las tablas con NOMBRE (`ventas`, `dim_producto`, `dim_region`), sin comillas.
+
 Este archivo se trabaja en tu repo de práctica `curso-datos`. Cópialo ahí y ejecútalo
 desde la raíz del repo con:  uv run actividad_01.py
 
 Cómo funciona:
   - Cada ejercicio te pide RELLENAR una cadena SQL entre las triples comillas.
   - NO cambies los nombres de las variables (SQL_1, SQL_2, ...).
-  - Escribe SQL sobre la tabla `{CSV}` (usa la constante CSV con f-string, como en el demo).
+  - Escribe SQL sobre las tablas con nombre (ventas, dim_producto), sin comillas ni rutas.
   - El corrector del final ejecuta tu SQL y te dice qué está bien y qué no.
 
-Requisito (en curso-datos):  uv add duckdb   y copiar ventas_ejemplo.csv a data/raw/
+Requisito (en curso-datos):  uv add duckdb  y haber creado la base con el script del
+Módulo 04:  uv run crear_db.py   → genera data/tienda.duckdb.
 Pistas: todo está en el README, secciones 4.3 a 4.9. No mires demo_guiado.py
 hasta haberlo intentado al menos dos veces.
 """
 
 import duckdb
 
-CSV = "data/raw/ventas_ejemplo.csv"   # el CSV que copiaste a tu repo curso-datos
-
 
 # ── EJERCICIO 1: total de ventas por canal ────────────────────────
 # Devuelve dos columnas: canal, total (SUM de ventas), ordenado de mayor a
 # menor total. Ignora las ventas nulas (WHERE ventas IS NOT NULL).
-SQL_1 = f"""
-    -- TODO: SELECT canal, SUM(...) ... FROM '{CSV}' ... GROUP BY ... ORDER BY ...
+SQL_1 = """
+    -- TODO: SELECT canal, SUM(...) ... FROM ventas ... GROUP BY ... ORDER BY ...
 """
 
 
 # ── EJERCICIO 2: filtrar con IN ───────────────────────────────────
 # Cuenta cuántas ventas de los canales 'Web' y 'Movil' superaron 150.
 # Devuelve UNA sola columna con ese número (un COUNT).
-SQL_2 = f"""
-    -- TODO: SELECT COUNT(*) FROM '{CSV}' WHERE canal IN (...) AND ventas > ...
+SQL_2 = """
+    -- TODO: SELECT COUNT(*) FROM ventas WHERE canal IN (...) AND ventas > ...
 """
 
 
@@ -43,17 +45,18 @@ SQL_2 = f"""
 # Clasifica cada venta (no nula) en 'Alto' (>=120), 'Medio' (>=90) o 'Bajo',
 # y cuenta cuántas hay en cada segmento. Devuelve: segmento, n — ordenado por
 # n de mayor a menor. (Envuelve el CASE en una CTE, como en el demo paso 8.)
-SQL_3 = f"""
-    -- TODO: WITH segmentado AS (SELECT CASE ... END AS segmento ...) SELECT segmento, COUNT(*) ...
+SQL_3 = """
+    -- TODO: WITH segmentado AS (SELECT CASE ... END AS segmento FROM ventas ...) SELECT segmento, COUNT(*) ...
 """
 
 
-# ── EJERCICIO 4: promedio por producto ────────────────────────────
-# Para cada producto, calcula el promedio de ventas redondeado a 2 decimales.
-# Devuelve: producto, promedio — ordenado por promedio de mayor a menor.
-# (El primero de la lista es el producto con el ticket medio más alto.)
-SQL_4 = f"""
-    -- TODO: SELECT producto, ROUND(AVG(ventas), 2) ... GROUP BY producto ORDER BY ...
+# ── EJERCICIO 4: promedio por producto con su NOMBRE (JOIN) ───────
+# Une 'ventas' con 'dim_producto' y, para cada NOMBRE de producto, calcula el
+# promedio de ventas redondeado a 2 decimales, de mayor a menor.
+# Devuelve: nombre, promedio. (El primero es el producto con ticket medio más alto.)
+SQL_4 = """
+    -- TODO: SELECT p.nombre, ROUND(AVG(v.ventas), 2) FROM ventas v
+    --       JOIN dim_producto p ON v.producto = p.producto GROUP BY p.nombre ORDER BY ...
 """
 
 
@@ -61,8 +64,8 @@ SQL_4 = f"""
 # Usa RANK() OVER (ORDER BY SUM(ventas) DESC) para rankear los productos por
 # ventas totales, y quédate solo con los 3 primeros.
 # Devuelve: producto, total, puesto (1, 2, 3).
-SQL_5 = f"""
-    -- TODO: envuelve el RANK() en una CTE y filtra WHERE puesto <= 3
+SQL_5 = """
+    -- TODO: envuelve el RANK() en una CTE (FROM ventas) y filtra WHERE puesto <= 3
 """
 
 
@@ -70,8 +73,8 @@ SQL_5 = f"""
 # Agrega ventas por mes (DATE_TRUNC('month', fecha)) y calcula la variación
 # porcentual respecto al mes anterior con LAG (como el demo paso 7).
 # Devuelve: mes, total, variacion_pct — ordenado por mes ascendente.
-SQL_6 = f"""
-    -- TODO: WITH mensual AS (...) SELECT mes, total, ROUND(100.0*(...)/LAG(...), 1) ...
+SQL_6 = """
+    -- TODO: WITH mensual AS (SELECT ... FROM ventas ...) SELECT mes, total, ROUND(100.0*(...)/LAG(...), 1) ...
 """
 
 
@@ -79,9 +82,11 @@ SQL_6 = f"""
 #  CORRECTOR — no toques nada de aquí abajo
 # ══════════════════════════════════════════════════════════════════
 def corregir():
+    con = duckdb.connect("data/tienda.duckdb")
+
     def rows(sql):
         try:
-            return duckdb.sql(sql).fetchall()
+            return con.execute(sql).fetchall()
         except Exception as e:
             return e
 
@@ -106,8 +111,8 @@ def corregir():
          ok(r3) and r3[0][0] == "Bajo" and r3[0][1] == 353),
         ("3b. Tres segmentos: Bajo 353, Medio 191, Alto 172",
          ok(r3) and {row[0]: row[1] for row in r3} == {"Bajo": 353, "Medio": 191, "Alto": 172}),
-        ("4. Producto con mayor promedio es C (143.21)",
-         ok(r4) and r4[0][0] == "C" and round(float(r4[0][1]), 2) == 143.21),
+        ("4. Producto con mayor promedio es Cesar (143.21)",
+         ok(r4) and r4[0][0] == "Cesar" and round(float(r4[0][1]), 2) == 143.21),
         ("5. Top 3 productos por RANK: C, A, B",
          ok(r5) and [x[0] for x in r5] == ["C", "A", "B"]),
         ("6. Junio es la mayor caída (-21.0%)",
@@ -133,7 +138,9 @@ def corregir():
         print("\n  Perfecto. Listo para el Módulo 06.")
     else:
         print("\n  Revisa los FALLA. Si una consulta lanza error, imprime el resultado")
-        print("  con duckdb.sql(SQL_N).show() para depurarla.")
+        print("  con con.sql(SQL_N).show() para depurarla.")
+
+    con.close()
 
 
 def _mayor_caida(r):
