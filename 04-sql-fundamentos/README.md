@@ -328,4 +328,6 @@ Con solo lo de este módulo, responde estas 3 preguntas de negocio, **una consul
 
 Guarda las 4 consultas en tu notebook/script de `curso-datos` y haz commit a **ese** repo de práctica.
 
-➡️ Siguiente: [Módulo 05 — SQL moderno](../05-sql-moderno/README.md)
+➡️ Siguiente: [Módulo 05 — SQL moderno](../05-sql-moderno/README.md) — allí darás el salto de
+*consultar* datos a *construirlos*: CTEs y window functions, pipelines **ETL/ELT** con capas
+`raw → staging → marts`, modelado dimensional y optimización de consultas.

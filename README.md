@@ -32,15 +32,15 @@ Al terminar serás capaz de:
 | 02 | [Entorno y Git](02-entorno-y-git/README.md) | Python moderno (uv), VS Code, Jupyter, Git/GitHub | 6 |
 | 03 | [Python: pandas y Polars](03-python-pandas-polars/README.md) | Manipulación de datos, limpieza, Polars para escala | 12 |
 | 04 | [SQL: fundamentos](04-sql-fundamentos/README.md) | Primer contacto con SQL: SELECT, WHERE, GROUP BY, ORDER BY, JOIN básico | 8 |
-| 05 | [SQL moderno](05-sql-moderno/README.md) | Consultas analíticas, CTEs, window functions, modelado | 10 |
+| 05 | [SQL moderno](05-sql-moderno/README.md) | CTEs, window functions, ETL/ELT, modelado dimensional y optimización de consultas | 14 |
 | 06 | [Estadística y EDA](06-estadistica-y-eda/README.md) | Estadística aplicada, EDA, inferencia, causalidad | 10 |
 | 07 | [Visualización y storytelling](07-visualizacion-y-storytelling/README.md) | matplotlib/plotly, Power BI, narrativa de datos | 10 |
-| 08 | [Modern data stack](08-stack-datos-moderno/README.md) | ELT, dbt, warehouses, orquestación | 8 |
+| 08 | [Modern data stack](08-stack-datos-moderno/README.md) | ELT, dbt, warehouses cloud (Snowflake/BigQuery/Databricks), orquestación y herramientas (Airflow, KNIME, Alteryx) | 8 |
 | 09 | [IA generativa aplicada](09-ia-generativa-aplicada/README.md) | LLMs como copiloto, prompting, RAG, límites y ética | 8 |
 | 10 | [Automatización y apps](10-automatizacion-y-apps/README.md) | Pipelines, Streamlit, dashboards, despliegue | 6 |
 | 11 | [Proyecto final y carrera](11-proyecto-final-y-carrera/README.md) | Portafolio, entrevistas, plan de crecimiento | 8 |
 
-**Duración total estimada:** ~98 horas (9–13 semanas a ritmo part-time).
+**Duración total estimada:** ~102 horas (9–13 semanas a ritmo part-time).
 
 ---
 

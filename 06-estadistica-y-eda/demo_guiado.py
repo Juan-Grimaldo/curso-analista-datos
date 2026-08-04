@@ -73,7 +73,7 @@ for c in ["region", "producto", "canal"]:
 # ── PASO 2: DESCRIPTIVA — CUANDO LA MEDIA MIENTE (5.2) ────────────
 titulo(2, "Media vs mediana: la primera senal de alarma (5.2)")
 media, mediana, std = df["ventas"].mean(), df["ventas"].median(), df["ventas"].std()
-print(f"  media   = {media:.2f}")
+print(f" media   = {media:.2f}")
 print(f"  mediana = {mediana:.2f}")
 print(f"  std     = {std:.2f}   (mas grande que la propia mediana: sospechoso)")
 print(f"  skew    = {df['ventas'].skew():.2f}   (>1 ya es asimetria fuerte; esto es enorme)")
